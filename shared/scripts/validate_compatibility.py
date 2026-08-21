@@ -30,6 +30,7 @@ REQUIRED_SKILLS = {
     "teach",
     "quiz",
     "exercise",
+    "hint",
     "assess",
     "explain",
     "review",
@@ -66,8 +67,8 @@ def validate(root: Path) -> list[str]:
         return errors
 
     version = manifest.get("version")
-    if version != "0.4.0":
-        fail(f"manifest version must be 0.4.0, got {version!r}", errors)
+    if version != "0.5.0":
+        fail(f"manifest version must be 0.5.0, got {version!r}", errors)
     skills = set(manifest.get("skills", []))
     missing_skills = REQUIRED_SKILLS - skills
     if missing_skills:

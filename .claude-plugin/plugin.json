@@ -1,7 +1,7 @@
 {
   "name": "code-buddy",
-  "version": "0.4.0",
-  "description": "Repository-native learning coach for courses and existing codebases: setup, project mapping, quizzes, lessons, exercises, assessment, review, and durable learning memory.",
+  "version": "0.5.0",
+  "description": "Repository-native learning coach for courses and existing codebases: setup, project mapping, quizzes, lessons, comment-driven exercises, hints, assessment, review, and durable learning memory.",
   "author": {
     "name": "codeKobby",
     "url": "https://github.com/codeKobby"
@@ -14,6 +14,8 @@
     "programming",
     "education",
     "quizzes",
+    "comment-driven-exercises",
+    "hints",
     "code-assessment",
     "agent-skills"
   ],
@@ -23,6 +25,7 @@
     "./skills/teach",
     "./skills/quiz",
     "./skills/exercise",
+    "./skills/hint",
     "./skills/assess",
     "./skills/explain",
     "./skills/review",

@@ -13,7 +13,7 @@ npx skills add codeKobby/code-buddy --all
 Install only selected commands:
 
 ```bash
-npx skills add codeKobby/code-buddy --skill quiz --skill assess --skill progress
+npx skills add codeKobby/code-buddy --skill quiz --skill exercise --skill hint --skill assess --skill progress
 ```
 
 Target specific agents:
@@ -66,8 +66,9 @@ The continuous quiz itself uses the same interaction model: learners can click a
 | `/setup-learning` | Detect the repository course and initialize `.learning/`. |
 | `/teach` | Teach one focused concept with an example, trace, and task. |
 | `/quiz` | Run a continuous A–D quiz and continue after every answer. |
-| `/exercise` | Select or create a concrete learner-owned exercise. |
-| `/assess` | Review code, diffs, answers, output, or exercise artifacts. |
+| `/exercise` | Create or open a learner-owned, comment-marked exercise and set the active question. |
+| `/hint` | Give progressive, non-spoiling help for the active exercise question. |
+| `/assess` | Resolve the active question, optionally run approved checks, and assess the implementation. |
 | `/explain` | Explain a concept, error, code block, or assessment comment. |
 | `/review` | Practise weak, overdue, or recently corrected topics. |
 | `/progress` | Regenerate the evidence-based progress dashboard. |
@@ -108,6 +109,7 @@ The skill stores learner-specific state in the current repository, not in the sk
 ├── PROGRESS.md
 ├── progress.json
 ├── quiz-sessions/
+├── exercises/
 ├── attempts/
 ├── assessments/
 ├── learning-records/
@@ -115,6 +117,22 @@ The skill stores learner-specific state in the current repository, not in the sk
 ```
 
 The skill distinguishes exposure, retrieval, implementation, and transfer. A high quiz score is useful retrieval evidence but does not by itself establish coding mastery.
+
+## Comment-driven exercises
+
+When `/exercise` opens a course question, it creates a learner-owned manifest under `.learning/exercises/<exercise-id>/` and gives each prompt a stable marker such as `CB-Q01`. The answer file keeps the question visible and places the learner’s code between `CB-ANSWER-START CB-Q01` and `CB-ANSWER-END CB-Q01`. The original lesson, hints, and solutions remain unchanged.
+
+```python
+# CB-Q01: Write a function that returns a safe greeting.
+# CB-ANSWER-START CB-Q01
+def safe_greeting(name: str) -> str:
+    return ""  # replace this with your implementation
+# CB-ANSWER-END CB-Q01
+```
+
+The manifest remembers the active question, so the learner can simply ask `/hint` or `/assess` without repeating the prompt. `/hint` escalates from an observation question to a concept pointer, targeted clue, partial pseudocode, comparable example, and—only after an attempt or explicit request—a solution review. Hints can be inserted into comments after confirmation.
+
+`/assess` can inspect the changed region, ask permission to activate a commented draft or use a temporary copy, run documented checks, and record the real evidence. It reports correctness separately from reasoning, verification, edge cases, maintainability, complexity, and modernity. A solution that is correct but longer than necessary is not failed; it receives an explanation of a clearer or more idiomatic alternative and the trade-offs involved.
 
 ## Compatibility with arbitrary codebases
 
@@ -154,6 +172,7 @@ From this distribution directory:
 python3 shared/scripts/detect_course.py /path/to/course
 python3 shared/scripts/detect_hosts.py /path/to/course
 python3 shared/scripts/normalize_target.py day one
+python3 skills/exercise/scripts/parse_exercise_markers.py /path/to/course
 python3 shared/scripts/validate_state.py /path/to/course
 python3 shared/scripts/update_progress.py /path/to/course
 python3 shared/scripts/validate_compatibility.py .

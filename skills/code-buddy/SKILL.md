@@ -4,7 +4,7 @@ description: Coach learners through arbitrary local repositories and programming
 license: MIT
 metadata:
   author: codeKobby
-  version: "0.4.0"
+  version: "0.5.0"
   package: code-buddy
 ---
 
@@ -23,8 +23,9 @@ Use the explicit command when the user names one:
 | `/setup-learning` | Classify the repository, interview the learner, draft and confirm a project map, glossary, lightweight curriculum, and `.learning/` state. |
 | `/teach [day|lesson|topic]` | Teach one narrow concept with an example, trace, and task. |
 | `/quiz [day|lesson|topic]` | Run a continuous A–D quiz and continue after every answer. |
-| `/exercise [day|lesson|topic]` | Select or create a concrete learner-owned exercise. |
-| `/assess [file|diff|answer]` | Assess submitted code or reasoning against the repository rubric. |
+| `/exercise [day|lesson|topic]` | Select or create a concrete learner-owned, comment-marked exercise and set the active question. |
+| `/hint [question]` | Give progressive, non-spoiling help for the active exercise question and optionally place it in comments. |
+| `/assess [file|diff|answer]` | Resolve the active question, optionally run approved checks safely, and assess correctness separately from quality. |
 | `/explain [concept|error|code]` | Explain one concept, failure, or code block. |
 | `/review [topic|due]` | Run retrieval practice on weak or due topics. |
 | `/progress` | Recompute and show evidence-based progress. |
@@ -37,7 +38,7 @@ If the user asks generally to learn, inspect the state and route to `/next`. If 
 
 Find the Git worktree and inspect README files, documentation, source directories, tests, examples, exercise files, package configuration, build scripts, commit history when useful, and documented checks. Classify the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`. If the repository has a day index or curriculum guide, map and preserve it; otherwise infer a project map and propose a lightweight daily curriculum from headings, filenames, tests, symbols, dependencies, and project milestones. Recognize the three supported course families when their standards exist, but always provide a repository-agnostic fallback for other languages, frameworks, and existing codebases. Do not assume a fixed directory naming scheme.
 
-Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Draft `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, show concise summaries, and ask for selectable confirmation before writing durable versions. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), [curriculum-design.md](references/curriculum-design.md), [interactive-choices.md](references/interactive-choices.md), and [agent-compatibility.md](references/agent-compatibility.md).
+Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Draft `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, show concise summaries, and ask for selectable confirmation before writing durable versions. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `exercises/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), [curriculum-design.md](references/curriculum-design.md), [interactive-choices.md](references/interactive-choices.md), and [agent-compatibility.md](references/agent-compatibility.md).
 
 Do not pre-generate every lesson, full walkthrough, solution, or future quiz bank during setup. Setup creates planning metadata only. Link lessons, attempts, assessments, quiz reports, learning records, and progress topics by artifact path; detailed lessons are generated only after the learner selects a target.
 
@@ -63,13 +64,17 @@ Read [quiz-design.md](references/quiz-design.md) for the question contract and s
 
 ## Teach, exercise, and explain
 
+For `/exercise`, prefer existing numbered prompts and starter files, then create a learner-owned `.learning/exercises/<exercise-id>/manifest.json` with stable `CB-Q##` markers, answer-region delimiters, source anchors, acceptance criteria, checks, hint level, status, and `active_question`. The learner keeps the marker while editing. `/hint` and `/assess` resolve an omitted question from that active state. Read [comment-driven-exercises.md](../exercise/references/comment-driven-exercises.md) when creating or assessing these artifacts.
+
+For `/hint`, inspect the active marker, prompt, answer region, and prior hint level. Start with expectation/observation, then a source pointer, next decision, partial pseudocode, comparable example, and only then a solution review after an attempt or explicit request. A hint inserted into code must be clearly delimited and use the file’s comment syntax.
+
 Teach one small concept using: problem, plain-language mental model, worked example, prediction, trace, limitation, and learner-owned task. Use the repository’s existing lessons, README files, source comments, tests, examples, exercises, and history as the curriculum source. For an existing codebase without lessons, let the learner select a file, symbol, test, feature, or bug and construct a compact learning episode from it. For programming tasks, progress through complete example, trace, meaningful faded example, and independent implementation. Remove scaffolding by concept or subgoal, not arbitrary line deletion.
 
 Use the help ladder: question, reminder, targeted hint, partial scaffold, comparable worked example, then solution review. Give the learner the next useful step instead of immediately replacing their work. Consult the project glossary for consistent vocabulary and update it only through learner-approved changes. Read [glossary-design.md](references/glossary-design.md) when extracting or revising terms. Use [teaching-loop.md](references/teaching-loop.md) and [output-modes.md](references/output-modes.md).
 
 ## Assess submitted work
 
-For `/assess`, inspect the learner’s answer, file, diff, test output, pull request, bug fix, or exercise artifact. Use repository-specific standards when present; otherwise derive acceptance criteria from the learner’s stated goal, surrounding code, tests, documentation, and conventions. Report what was observed separately from what is inferred. Assess concept, implementation, reasoning, verification, edge cases, maintainability, integration impact, and limitations; include safety, scope, evidence, and cleanup for cybersecurity work. A passing check is evidence for that check, not proof of overall mastery.
+For `/assess`, inspect the learner’s answer, file, diff, test output, pull request, bug fix, or active comment-marked exercise artifact. Resolve the `CB-Q##` marker to its source prompt and answer region. Ask before activating a commented draft or running checks; prefer a temporary copy and record real output. Use repository-specific standards when present; otherwise derive acceptance criteria from the learner’s stated goal, surrounding code, tests, documentation, and conventions. Report correctness, reasoning, verification, edge cases, maintainability, complexity, modernity, integration impact, and limitations independently; include safety, scope, evidence, and cleanup for cybersecurity work. A passing check is evidence for that check, not proof of overall mastery, and a correct but long approach should receive improvement guidance rather than a failing verdict.
 
 Use the verdicts `not-demonstrated`, `emerging`, `reliable`, and `transferable`. If assessment mode or output mode is not stored, present the choices as selectable questions. Write Markdown for substantial assessments under `.learning/assessments/`; use inline output for brief feedback and `--both` when the learner wants both. See [assessment-rubric.md](references/assessment-rubric.md).
 
@@ -93,4 +98,4 @@ For all other repositories, treat the project’s own documentation, tests, conv
 
 ## Deterministic helpers
 
-When available, run the bundled scripts with `--help` first. Use `scripts/detect_course.py` to inspect a repository, `scripts/detect_hosts.py` to report installed coding agents and expected skill roots, `scripts/normalize_target.py` to normalize day/topic input, `scripts/validate_state.py` to check `.learning/`, `scripts/update_progress.py` to regenerate `PROGRESS.md`, and `scripts/validate_compatibility.py` to check host paths and package metadata. Read [agent-compatibility.md](references/agent-compatibility.md) before installing or troubleshooting a host integration. Scripts are helpers, not substitutes for judgment; do not claim a check ran when it did not.
+When available, run the bundled scripts with `--help` first. Use `scripts/detect_course.py` to inspect a repository, `scripts/detect_hosts.py` to report installed coding agents and expected skill roots, `scripts/normalize_target.py` to normalize day/topic input, `scripts/validate_state.py` to check `.learning/`, `scripts/update_progress.py` to regenerate `PROGRESS.md`, and `scripts/validate_compatibility.py` to check host paths and package metadata. The exercise skill provides `scripts/parse_exercise_markers.py`, `scripts/scaffold_exercise.py`, and `scripts/resolve_exercise.py` for comment-driven exercise files; use those from the installed exercise skill directory when needed. Read [agent-compatibility.md](references/agent-compatibility.md) before installing or troubleshooting a host integration. Scripts are helpers, not substitutes for judgment; do not claim a check ran when it did not.

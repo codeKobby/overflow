@@ -1,56 +1,80 @@
 ---
 name: assess
-description: Assess a learner’s code, diff, answer, test output, pull request, bug fix, or exercise artifact against the current repository’s standards and stated goal. Provide a qualitative verdict, evidence, gaps, explanation, edge cases, and next action; write a Markdown report when useful. Use when the user asks to grade, review, examine, assess, or check learning work in any codebase.
+description: Assess a learner’s comment-marked code-buddy exercise by resolving its CB question ID, inspecting the linked prompt and answer region, optionally activating a reversible copy, running approved checks, and reporting correctness, reasoning, edge cases, maintainability, complexity, and modernity. Use when the learner asks to assess, grade, examine, verify, or review completed exercise code.
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.2.0"
+  version: "0.5.0"
 ---
 
 # Code Buddy Assessment
 
-Assess evidence, not confidence alone. Accept a file path, diff, pasted code, written answer, test output, or the most recent attempt. Present assessment target, output mode, and optional rubric emphasis as selectable questions when supported; otherwise use numbered or lettered text.
+Assess the learner’s actual evidence, not confidence or similarity to a canonical solution. Read `references/comment-driven-exercises.md` from the exercise skill when the manifest, marker, answer region, or hint state needs interpretation.
 
-## Workflow
+## Resolve the submission
 
-1. Identify the lesson, exercise, topic, file, symbol, bug, project goal, and acceptance condition.
-2. Read the repository’s quality standard, README, tests, documentation, conventions, and relevant exercise/rubric files when present.
-3. Inspect only the submitted artifact and necessary supporting files.
-4. Run documented local checks only when allowed and report exactly what ran.
-5. Separate observations from inferences.
-6. Use the verdict `not-demonstrated`, `emerging`, `reliable`, or `transferable`; when the learner wants to discuss the result, present these interpretations as selectable options before asking for the next decision.
-7. Write `.learning/assessments/YYYY-MM-DD-topic.md` for substantial assessments, linking the source lesson, attempt, quiz report, project-map target, files inspected, and checks actually run; otherwise respond inline for brief feedback.
-8. Update progress evidence, link the assessment path into the affected topic, and present the recommended next action as a selectable question with `Other` when possible.
+1. Locate `.learning/exercises/*/manifest.json`. If there is no active manifest, ask the learner to run `/exercise` first.
+2. Resolve an omitted question from the manifest’s `active_question`. If multiple exercises are active, present them as selectable choices or numbered options. Accept explicit IDs such as `CB-Q03` and normalise `CB-Q3` to the manifest ID.
+3. Confirm that the marker exists and is unique. Read the linked prompt, source anchor, relevant lesson section, starter, acceptance criteria, approved checks, hint history, target files, and answer region.
+4. Inspect the learner’s diff and the smallest necessary supporting files. Do not open or reveal a solution file unless the learner explicitly requests a solution review.
 
-## Rubric
+## Verification permission
 
-Assess concept accuracy, implementation acceptance, reasoning, verification, edge cases, maintainability, integration impact, transfer, and limitations. For Python cybersecurity also assess authorization, target, scope, evidence, cleanup, privacy, and stop conditions. For any other repository, derive criteria from the learner’s stated goal and the project’s own tests and conventions rather than inventing a course-specific rubric.
+Before running code, present a selectable permission question when supported:
 
-Use this report shape:
+> The exercise lists these checks: `<commands>`. May I run them as written, using the current repository or a temporary copy? Choose: **Run all**, **Choose checks**, **Static inspection only**, or **Other**.
+
+Run only documented or explicitly approved checks. If the answer is commented out, do not uncomment arbitrary repository code. Offer a reversible temporary copy or a separate executable answer file, and label the evidence as `draft-answer` until it has executed successfully. Never use a broad search-and-replace to remove comments.
+
+For security work, require local or synthetic targets, explicit authorization, bounded scope, evidence, cleanup, privacy, and stop conditions. Do not run network-facing or destructive commands by inference.
+
+## Assess in separate dimensions
+
+| Dimension | Required question |
+| --- | --- |
+| Correctness | Does the implementation satisfy the prompt and acceptance criteria? |
+| Verification | Which approved checks actually ran, with their real exit status and output? |
+| Reasoning | Can the learner explain the important decisions and behavior? |
+| Edge cases | Does it handle a meaningful boundary, invalid input, empty input, or failure path? |
+| Maintainability | Is it readable, focused, structured, and consistent with repository conventions? |
+| Complexity | Is its time, space, or operational cost appropriate when relevant? |
+| Modernity | Does it use current idiomatic APIs for the repository’s language and toolchain? |
+| Transfer | Can the learner adapt it to a changed input or nearby task? |
+| Safety | Are security boundaries and evidence obligations satisfied? |
+
+A correct but long implementation is still correct. Report `correctness: pass` when acceptance is met, then give an optional shorter, clearer, or more modern alternative with trade-offs. Do not call a solution wrong only because another implementation is shorter. Do not require a modern API if the exercise intentionally teaches an older API or if the trade-off is not favorable.
+
+## Report and state updates
+
+For substantial work, write `.learning/assessments/YYYY-MM-DD-<exercise-id>-<question-id>.md`:
 
 ```md
-# Assessment: <topic>
+# Assessment: <exercise title> — <question ID>
 
-- Verdict: <level>
-- Evidence inspected: <paths, diff, answer, output>
+- Status: <verified | needs-revision | submitted>
+- Correctness: <pass | partial | not-demonstrated>
+- Evidence mode: <executed-implementation | draft-answer | static-inspection>
+- Source: <relative prompt path and line anchor>
+- Answer region: <relative path and marker>
+- Hints used: <levels and links>
 
 ## What is demonstrated
-<specific observations>
-
-## Gaps and risks
-<smallest useful corrections>
-
-## Explanation
-<focused trace or decision walkthrough>
 
 ## Verification
-<checks run and what they prove; checks not run are stated>
+
+## Quality and maintainability
+
+## Complexity and modernity
 
 ## Edge case or limitation
-<one boundary to test or explain>
+
+## Explanation check
 
 ## Next action
-<one exercise, review, or transfer task>
 ```
 
-Never fabricate test output. A green check proves only its tested condition. Do not mark implementation mastery from a multiple-choice score alone. If the learner has not attempted the work, give a task or hint instead of pretending to grade it.
+Record exact files, source-anchor freshness, hints used, permission, checks actually run, output excerpts, uncertainty, and the learner’s explanation. Update the question status and `active_question` only after recording the result. Link the report from the attempt record, affected topic, `progress.json`, and `PROGRESS.md` when those files exist.
+
+Use `not-demonstrated`, `emerging`, `reliable`, or `transferable` for the overall learning verdict. `mastered` requires explanation and transfer evidence; a green test alone proves only the tested condition.
+
+Never fabricate output, claim a check ran when it did not, or silently implement the exercise.

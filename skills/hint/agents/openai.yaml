@@ -1,0 +1,5 @@
+interface:
+  display_name: Hint
+  short_description: Get progressive, non-spoiling help for the active exercise question.
+policy:
+  allow_implicit_invocation: false

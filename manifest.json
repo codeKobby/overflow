@@ -1,13 +1,14 @@
 {
   "name": "code-buddy",
-  "version": "0.4.0",
-  "description": "Repository-native learning coach for arbitrary codebases, courses, interactive quizzes, on-demand lessons, assessment, and progress.",
+  "version": "0.5.0",
+  "description": "Repository-native learning coach for arbitrary codebases and courses with continuous quizzes, comment-driven exercises, active hints, executable assessment, on-demand lessons, and progress.",
   "skills": [
     "code-buddy",
     "setup-learning",
     "teach",
     "quiz",
     "exercise",
+    "hint",
     "assess",
     "explain",
     "review",

@@ -44,6 +44,34 @@ def main() -> int:
                         errors.append(f"{session.name}: missing {key}")
             except json.JSONDecodeError as exc:
                 errors.append(f"{session.name}: invalid JSON: {exc}")
+        exercises_dir = state / "exercises"
+        if exercises_dir.exists() and not exercises_dir.is_dir():
+            errors.append(".learning/exercises must be a directory")
+        for manifest in exercises_dir.glob("*/manifest.json") if exercises_dir.is_dir() else []:
+            try:
+                data = json.loads(manifest.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                errors.append(f"{manifest}: invalid JSON: {exc}")
+                continue
+            if not isinstance(data, dict):
+                errors.append(f"{manifest}: manifest must contain an object")
+                continue
+            questions = data.get("questions")
+            if not isinstance(questions, list) or not questions:
+                errors.append(f"{manifest}: questions must be a non-empty list")
+                continue
+            question_ids = [item.get("id") for item in questions if isinstance(item, dict)]
+            if len(question_ids) != len(set(question_ids)):
+                errors.append(f"{manifest}: duplicate question IDs")
+            active = data.get("active_question")
+            if active is not None and active not in question_ids:
+                errors.append(f"{manifest}: active_question does not match a question")
+            allowed_statuses = {"not-started", "scaffolded", "in-progress", "hinted", "submitted", "verified", "needs-revision", "mastered"}
+            for item in questions:
+                if not isinstance(item, dict):
+                    errors.append(f"{manifest}: each question must be an object")
+                elif item.get("status") not in allowed_statuses:
+                    errors.append(f"{manifest}: invalid question status for {item.get('id')!r}")
     result = {"root": str(root), "valid": not errors, "errors": errors, "warnings": warnings}
     print(json.dumps(result, indent=2))
     return 1 if errors else 0
