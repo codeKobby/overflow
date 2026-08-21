@@ -1,0 +1,26 @@
+{
+  "name": "code-buddy",
+  "version": "0.1.0",
+  "description": "Repository-native learning coach for programming courses.",
+  "skills": [
+    "code-buddy",
+    "setup-learning",
+    "teach",
+    "quiz",
+    "exercise",
+    "assess",
+    "explain",
+    "review",
+    "progress",
+    "next"
+  ],
+  "agents": [
+    "claude-code",
+    "codex",
+    "cline",
+    "opencode",
+    "antigravity"
+  ],
+  "state_directory": ".learning",
+  "license": "MIT"
+}

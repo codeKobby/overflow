@@ -1,0 +1,5 @@
+interface:
+  display_name: Code Buddy
+  short_description: Learn, quiz, practise, assess, and track coding-course progress.
+policy:
+  allow_implicit_invocation: false
