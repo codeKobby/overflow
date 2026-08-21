@@ -4,7 +4,7 @@ description: Coach learners through arbitrary local repositories and programming
 license: MIT
 metadata:
   author: codeKobby
-  version: "0.3.0"
+  version: "0.4.0"
   package: code-buddy
 ---
 
@@ -37,7 +37,7 @@ If the user asks generally to learn, inspect the state and route to `/next`. If 
 
 Find the Git worktree and inspect README files, documentation, source directories, tests, examples, exercise files, package configuration, build scripts, commit history when useful, and documented checks. Classify the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`. If the repository has a day index or curriculum guide, map and preserve it; otherwise infer a project map and propose a lightweight daily curriculum from headings, filenames, tests, symbols, dependencies, and project milestones. Recognize the three supported course families when their standards exist, but always provide a repository-agnostic fallback for other languages, frameworks, and existing codebases. Do not assume a fixed directory naming scheme.
 
-Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Draft `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, show concise summaries, and ask for selectable confirmation before writing durable versions. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), [curriculum-design.md](references/curriculum-design.md), and [interactive-choices.md](references/interactive-choices.md).
+Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Draft `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, show concise summaries, and ask for selectable confirmation before writing durable versions. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), [curriculum-design.md](references/curriculum-design.md), [interactive-choices.md](references/interactive-choices.md), and [agent-compatibility.md](references/agent-compatibility.md).
 
 Do not pre-generate every lesson, full walkthrough, solution, or future quiz bank during setup. Setup creates planning metadata only. Link lessons, attempts, assessments, quiz reports, learning records, and progress topics by artifact path; detailed lessons are generated only after the learner selects a target.
 
@@ -93,4 +93,4 @@ For all other repositories, treat the project’s own documentation, tests, conv
 
 ## Deterministic helpers
 
-When available, run the bundled scripts with `--help` first. Use `scripts/detect_course.py` to inspect a repository, `scripts/normalize_target.py` to normalize day/topic input, `scripts/validate_state.py` to check `.learning/`, and `scripts/update_progress.py` to regenerate `PROGRESS.md`. Scripts are helpers, not substitutes for judgment; do not claim a check ran when it did not.
+When available, run the bundled scripts with `--help` first. Use `scripts/detect_course.py` to inspect a repository, `scripts/detect_hosts.py` to report installed coding agents and expected skill roots, `scripts/normalize_target.py` to normalize day/topic input, `scripts/validate_state.py` to check `.learning/`, `scripts/update_progress.py` to regenerate `PROGRESS.md`, and `scripts/validate_compatibility.py` to check host paths and package metadata. Read [agent-compatibility.md](references/agent-compatibility.md) before installing or troubleshooting a host integration. Scripts are helpers, not substitutes for judgment; do not claim a check ran when it did not.

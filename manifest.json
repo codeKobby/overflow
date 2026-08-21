@@ -1,6 +1,6 @@
 {
   "name": "code-buddy",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Repository-native learning coach for arbitrary codebases, courses, interactive quizzes, on-demand lessons, assessment, and progress.",
   "skills": [
     "code-buddy",
@@ -20,8 +20,26 @@
     "codex",
     "cline",
     "opencode",
-    "antigravity"
+    "antigravity",
+    "copilot-vscode",
+    "cursor",
+    "factory",
+    "kiro",
+    "slate",
+    "hermes",
+    "openclaw",
+    "gbrain"
   ],
+  "compatibility": {
+    "contract": "compatibility/hosts.json",
+    "documentation": "compatibility/README.md",
+    "tiers": {
+      "A": "native-portable",
+      "B": "installer-routed",
+      "C": "bridge"
+    },
+    "universal_install": "npx skills add codeKobby/code-buddy --all"
+  },
   "state_directory": ".learning",
   "license": "MIT"
 }

@@ -1,0 +1,33 @@
+{
+  "name": "code-buddy",
+  "version": "0.4.0",
+  "description": "Repository-native learning coach for courses and existing codebases: setup, project mapping, quizzes, lessons, exercises, assessment, review, and durable learning memory.",
+  "author": {
+    "name": "codeKobby",
+    "url": "https://github.com/codeKobby"
+  },
+  "homepage": "https://github.com/codeKobby/code-buddy",
+  "repository": "https://github.com/codeKobby/code-buddy",
+  "license": "MIT",
+  "keywords": [
+    "learning",
+    "programming",
+    "education",
+    "quizzes",
+    "code-assessment",
+    "agent-skills"
+  ],
+  "skills": [
+    "./skills/code-buddy",
+    "./skills/setup-learning",
+    "./skills/teach",
+    "./skills/quiz",
+    "./skills/exercise",
+    "./skills/assess",
+    "./skills/explain",
+    "./skills/review",
+    "./skills/progress",
+    "./skills/next",
+    "./skills/learn"
+  ]
+}

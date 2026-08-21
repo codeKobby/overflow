@@ -20,7 +20,7 @@ Target specific agents:
 
 ```bash
 npx skills add codeKobby/code-buddy --all \
-  -a claude-code -a codex -a cline -a opencode
+  -a claude-code -a codex -a cline -a opencode -a antigravity
 ```
 
 Install globally instead of only in the current project:
@@ -30,6 +30,18 @@ npx skills add codeKobby/code-buddy --all --global
 ```
 
 The installer can use symlinks for a shared source of truth or copies when symlinks are unavailable. Update later with `npx skills update`.
+
+## Agent compatibility
+
+Compatibility is a first-class part of the package, not just a list of names. The complete matrix is maintained in [`compatibility/hosts.json`](compatibility/hosts.json), with user-facing guidance in [`compatibility/README.md`](compatibility/README.md). Tier A hosts have verified standard discovery contracts; Tier B hosts are installer-routed and require host-specific placement; Tier C hosts are bridge integrations. The repository also includes an optional Claude Code plugin manifest at [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) and Codex picker metadata beside every skill.
+
+| Tier | Hosts |
+| --- | --- |
+| A — native portable | Claude Code, Codex CLI, Cline, OpenCode, Google Antigravity, GitHub Copilot / VS Code |
+| B — installer-routed | Cursor, Factory Droid, Kiro, Slate, Hermes |
+| C — bridge | OpenClaw, GBrain |
+
+Every host must preserve explicit invocation, progressive loading, relative references, selectable-question fallbacks, learner confirmation, source citations, and repository-local `.learning/` state. A host adapter must not silently add telemetry, external network calls, or destructive operations.
 
 ## Interactive choices
 
@@ -130,9 +142,11 @@ From this distribution directory:
 
 ```bash
 python3 shared/scripts/detect_course.py /path/to/course
+python3 shared/scripts/detect_hosts.py /path/to/course
 python3 shared/scripts/normalize_target.py day one
 python3 shared/scripts/validate_state.py /path/to/course
 python3 shared/scripts/update_progress.py /path/to/course
+python3 shared/scripts/validate_compatibility.py .
 ```
 
 The `skills/` directory contains the separately installable command skills. The `shared/` directory contains reference material and deterministic helpers used during development and validation.
