@@ -1,0 +1,5 @@
+interface:
+  display_name: Overflow Help
+  short_description: Explain Overflow commands, examples, files, and troubleshooting.
+policy:
+  allow_implicit_invocation: false

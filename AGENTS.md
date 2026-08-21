@@ -10,7 +10,7 @@ Use the standard `SKILL.md` folders from this repository. Before claiming host s
 
 For a new repository, start with `/setup-learning`. It must classify the workspace, interview the learner, draft the project map, glossary, and curriculum, and ask for confirmation before writing durable learner state. Do not generate every future lesson during setup.
 
-For a selected target, use `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/review`, `/progress`, `/next`, or `/learn`. Prefer Markdown artifacts for lessons and assessments. Link artifacts to one another and preserve `.learning/` as repository-local learner state. `/exercise` may create `.learning/exercises/<exercise-id>/manifest.json` with stable `CB-Q##` markers and an `active_question`; `/hint` and `/assess` should resolve that state rather than asking the learner to repeat the prompt.
+For a selected target, use `/help`, `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/review`, `/progress`, `/next`, or `/learn`. Prefer Markdown artifacts for lessons and assessments. Link artifacts to one another and preserve `.learning/` as repository-local learner state. `/exercise` may create `.learning/exercises/<exercise-id>/manifest.json` with stable `CB-Q##` markers and an `active_question`; `/hint` and `/assess` should resolve that state rather than asking the learner to repeat the prompt.
 
 ## Host behavior
 

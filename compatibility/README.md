@@ -44,7 +44,7 @@ OpenClaw and GBrain are treated as bridge/provider integrations. OpenClaw can la
 
 ## What every host must preserve
 
-The learner must be able to run `/setup-learning`, `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, and `/learn`, or the host’s equivalent explicit skill command. Selectable questions must degrade to numbered or lettered text. Relative references must resolve. `.learning/` must remain repository-local and separate from host configuration. The host adapter must not weaken learner confirmation, source-citation, privacy, or Python cybersecurity boundaries.
+The learner must be able to run `/help`, `/setup-learning`, `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, and `/learn`, or the host’s equivalent explicit skill command. Selectable questions must degrade to numbered or lettered text. Relative references must resolve. `.learning/` must remain repository-local and separate from host configuration. The host adapter must not weaken learner confirmation, source-citation, privacy, or Python cybersecurity boundaries.
 
 For troubleshooting, compare the host’s skill path with `compatibility/hosts.json`, check that `SKILL.md` is uppercase, verify that `name` matches the directory, and inspect host permissions. OpenCode can hide skills through `opencode.json` permissions; Cline can toggle skills off; Claude Code can have name conflicts across project, personal, plugin, and synced levels.
 

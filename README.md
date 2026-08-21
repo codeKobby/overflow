@@ -63,6 +63,7 @@ The continuous quiz itself uses the same interaction model: learners can click a
 
 | Command | Purpose |
 | --- | --- |
+| `/help [command|topic]` | Explain commands, examples, state files, output modes, and troubleshooting. |
 | `/setup-learning` | Detect the repository course and initialize `.learning/`. |
 | `/teach` | Teach one focused concept with an example, trace, and task. |
 | `/quiz` | Run a continuous A–D quiz and continue after every answer. |
@@ -74,6 +75,19 @@ The continuous quiz itself uses the same interaction model: learners can click a
 | `/progress` | Regenerate the evidence-based progress dashboard. |
 | `/next` | Recommend the smallest next learning action. |
 | `/learn` | Review, search, correct, archive, or export durable learning records and project vocabulary. |
+
+## Help examples
+
+```text
+/help
+/help quiz
+/help exercise
+/help examples
+/help state
+/help troubleshooting
+```
+
+Use `/help` for a concise command map, `/help <command>` for one command, and `/help examples` for complete course and source-project workflows. The help skill explains what each command does, which arguments it accepts, what files it may create, and what command to use next.
 
 ## Quiz examples
 

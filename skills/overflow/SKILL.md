@@ -4,7 +4,7 @@ description: Coach learners through arbitrary local repositories and programming
 license: MIT
 metadata:
   author: codeKobby
-  version: "0.6.0"
+  version: "0.7.0"
   package: overflow
 ---
 
@@ -20,6 +20,7 @@ Use the explicit command when the user names one:
 
 | Command | Action |
 | --- | --- |
+| `/help [command|topic]` | Explain Overflow commands, examples, output modes, state files, and troubleshooting. |
 | `/setup-learning` | Classify the repository, interview the learner, draft and confirm a project map, glossary, lightweight curriculum, and `.learning/` state. |
 | `/teach [day|lesson|topic]` | Teach one narrow concept with an example, trace, and task. |
 | `/quiz [day|lesson|topic]` | Run a continuous A–D quiz and continue after every answer. |
