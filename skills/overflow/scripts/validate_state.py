@@ -27,6 +27,27 @@ def main() -> int:
             if not (state / dirname).is_dir():
                 warnings.append(f"missing directory {dirname}")
         progress_path = state / "progress.json"
+        git_workflow = state / "git-workflow.json"
+        if git_workflow.exists():
+            try:
+                git_data = json.loads(git_workflow.read_text(encoding="utf-8"))
+                if not isinstance(git_data, dict):
+                    errors.append(".learning/git-workflow.json must contain an object")
+                else:
+                    if git_data.get("version") not in {None, 1}:
+                        errors.append("git-workflow.json version must be 1")
+                    if git_data.get("mode") not in {"branch", "worktree", "current", None}:
+                        errors.append("git-workflow.json has invalid mode")
+                    for key in ["base_branch", "base_commit", "exercise_branch"]:
+                        if key in git_data and git_data[key] is not None and not isinstance(git_data[key], str):
+                            errors.append(f"git-workflow.json {key} must be a string")
+                    if "worktree_path" in git_data and git_data["worktree_path"] is not None and not isinstance(git_data["worktree_path"], str):
+                        errors.append("git-workflow.json worktree_path must be a string or null")
+                    for key in ["commit_status", "push_status", "pull_request_status"]:
+                        if key in git_data and not isinstance(git_data[key], str):
+                            errors.append(f"git-workflow.json {key} must be a string")
+            except json.JSONDecodeError as exc:
+                errors.append(f"invalid git-workflow.json: {exc}")
         evidence_map = state / "cache" / "evidence-map.json"
         if evidence_map.exists():
             try:

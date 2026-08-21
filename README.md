@@ -134,7 +134,7 @@ The skill distinguishes exposure, retrieval, implementation, and transfer. A hig
 
 ## Comment-driven exercises
 
-When `/exercise` opens a course question, it creates a learner-owned manifest under `.learning/exercises/<exercise-id>/` and gives each prompt a stable marker such as `CB-Q01`. The answer file keeps the question visible and places the learner’s code between `CB-ANSWER-START CB-Q01` and `CB-ANSWER-END CB-Q01`. The original lesson, hints, and solutions remain unchanged.
+When `/exercise` opens a course question, it creates a learner-owned manifest under `.learning/exercises/<exercise-id>/` and gives each prompt a stable marker such as `CB-Q01`. The answer file keeps the question visible and places the learner’s code between `CB-ANSWER-START CB-Q01` and `CB-ANSWER-END CB-Q01`. The original lesson, hints, and solutions remain unchanged. During setup or the first code exercise, Overflow can optionally isolate the work on a local branch or a separate Git worktree.
 
 ```python
 # CB-Q01: Write a function that returns a safe greeting.
@@ -155,6 +155,20 @@ Overflow analyzes the selected course or source-project slice before deciding wh
 For a course with a `Prove it` section, Overflow assesses the learner’s implementation first, runs only approved checks, and then asks the direct-answer questions one at a time in chat. It evaluates the explanation against the source concept, observed output, implementation decisions, boundary cases, and limitations rather than exact wording. It then asks only the unresolved `Finish line` or self-assessment gates. A passing test proves the tested condition; unanswered proof questions remain visible as a reasoning gap.
 
 For an arbitrary source project without these native sections, Overflow creates a clearly labelled **inferred** evidence plan from the selected source files, nearby tests, documentation, and learner goal. It can propose a small implementation task, a source-grounded “explain this flow” question, a documented verification command, and a normal/boundary/limitation finish-line prompt. It never claims that an inferred section came from the repository, and setup asks for confirmation before storing the plan.
+
+## Optional Git exercise workflow
+
+During `/setup-learning`, Overflow offers four choices: create a **local exercise branch** such as `overflow/exercise/day-01-q03` (recommended), create a **separate worktree** for parallel or protected-main work, use the **current branch**, or **decide later**. The choice is stored only after confirmation.
+
+Before creating a branch or worktree, Overflow inspects the current branch, default branch, HEAD, remotes, worktrees, existing branch names, and dirty paths. It refuses to apply a branch proposal when the worktree is dirty, the target branch already exists, or the checkout is detached. It does not silently stash, reset, clean, commit, switch, or overwrite anything.
+
+```bash
+python3 shared/scripts/git_workflow.py . --mode inspect --output json
+python3 shared/scripts/git_workflow.py . --mode plan --slug day-01-q03 --output json
+python3 shared/scripts/git_workflow.py . --mode branch --slug day-01-q03 --apply
+```
+
+Branch or worktree metadata is recorded in `.learning/git-workflow.json` and linked to the exercise manifest, attempt, assessment, base commit, changed paths, and later commit SHAs. `/assess` can use the branch diff as evidence, but a branch, commit, push, draft pull request, merge, branch deletion, and worktree cleanup are separate learner confirmations. A commit or pull request is evidence of a reviewable artifact, not proof of mastery.
 
 This makes the learning loop dynamic:
 
@@ -186,7 +200,7 @@ The suite recognizes the user’s JavaScript/TypeScript, Python cybersecurity, a
 
 ## Initialization and on-demand lessons
 
-`/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones. Each selected target receives an inferred evidence plan when the project has no native course sections.
+`/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, Git isolation, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones. Each selected target receives an inferred evidence plan when the project has no native course sections.
 
 It does **not** generate every future lesson. When the learner selects a day, topic, file, function, component, test, bug, or feature, overflow produces the detailed lesson on demand. Markdown is recommended because the lesson can be revisited and assessed later:
 
@@ -205,6 +219,7 @@ From this distribution directory:
 ```bash
 python3 shared/scripts/detect_course.py /path/to/course
 python3 shared/scripts/discover_evidence.py /path/to/course --repository-type structured-course
+python3 shared/scripts/git_workflow.py /path/to/repository --mode inspect --output json
 python3 shared/scripts/detect_hosts.py /path/to/course
 python3 shared/scripts/normalize_target.py day one
 python3 skills/exercise/scripts/parse_exercise_markers.py /path/to/course

@@ -15,8 +15,8 @@ Assess the learner’s actual evidence, not confidence or similarity to a canoni
 
 1. Locate `.learning/exercises/*/manifest.json`. If there is no active manifest, ask the learner to run `/exercise` first.
 2. Resolve an omitted question from the manifest’s `active_question`. If multiple exercises are active, present them as selectable choices or numbered options. Accept explicit IDs such as `CB-Q03` and normalise `CB-Q3` to the manifest ID.
-3. Confirm that the marker exists and is unique. Read the linked prompt, source anchor, relevant lesson section, starter, acceptance criteria, approved checks, hint history, target files, answer region, and the selected native-or-inferred evidence plan. Detect linked `Practice`, `Prove it`, `Finish line`, self-assessment, verification, hints, solutions, and safety/scope artifacts without assuming fixed filenames.
-4. Inspect the learner’s diff and the smallest necessary supporting files. Do not open or reveal a solution file unless the learner explicitly requests a solution review.
+3. Confirm that the marker exists and is unique. Read the linked prompt, source anchor, relevant lesson section, starter, acceptance criteria, approved checks, hint history, target files, answer region, the selected native-or-inferred evidence plan, and optional `.learning/git-workflow.json`. Detect linked `Practice`, `Prove it`, `Finish line`, self-assessment, verification, hints, solutions, and safety/scope artifacts without assuming fixed filenames.
+4. Inspect the learner’s diff and the smallest necessary supporting files. If a branch or worktree is active, compare it with the recorded base commit and report changed paths, commits, and unpushed work. Do not open or reveal a solution file unless the learner explicitly requests a solution review.
 5. After implementation and approved checks, ask one due native `Prove it` question or clearly labelled inferred proof question in chat. Then ask unresolved Finish line or self-assessment gates. Do not ask every question after every small attempt; use the repository’s order and the learner’s current evidence gaps.
 
 ## Verification permission
@@ -25,7 +25,7 @@ Before running code, present a selectable permission question when supported:
 
 > The exercise lists these checks: `<commands>`. May I run them as written, using the current repository or a temporary copy? Choose: **Run all**, **Choose checks**, **Static inspection only**, or **Other**.
 
-Run only documented or explicitly approved checks. If the answer is commented out, do not uncomment arbitrary repository code. Offer a reversible temporary copy or a separate executable answer file, and label the evidence as `draft-answer` until it has executed successfully. Never use a broad search-and-replace to remove comments.
+Run only documented or explicitly approved checks. If the answer is commented out, do not uncomment arbitrary repository code. Offer a reversible temporary copy or a separate executable answer file, and label the evidence as `draft-answer` until it has executed successfully. Never use a broad search-and-replace to remove comments. Treat staging, committing, pushing, opening a draft pull request, merging, branch deletion, and worktree removal as separate confirmation questions; assessment must never perform them as a side effect.
 
 For security work, require local or synthetic targets, explicit authorization, bounded scope, evidence, cleanup, privacy, and stop conditions. Do not run network-facing or destructive commands by inference.
 
@@ -76,7 +76,7 @@ For substantial work, write `.learning/assessments/YYYY-MM-DD-<exercise-id>-<que
 ## Next action
 ```
 
-Record exact files, source-anchor freshness, hints used, permission, checks actually run, output excerpts, uncertainty, the learner’s explanation, proof responses, source provenance (`native` or `inferred`), and unresolved completion gates. Update the question status and `active_question` only after recording the result. Link the report from the attempt record, affected topic, `progress.json`, and `PROGRESS.md` when those files exist.
+Record exact files, source-anchor freshness, hints used, permission, checks actually run, output excerpts, uncertainty, the learner’s explanation, proof responses, source provenance (`native` or `inferred`), unresolved completion gates, branch/worktree, base commit, changed paths, commit SHAs, push status, and optional pull-request URL. Update the question status and `active_question` only after recording the result. Link the report from the attempt record, affected topic, `progress.json`, and `PROGRESS.md` when those files exist.
 
 Use `not-demonstrated`, `emerging`, `reliable`, or `transferable` for the overall learning verdict. `mastered` requires explanation and transfer evidence; a green test alone proves only the tested condition.
 

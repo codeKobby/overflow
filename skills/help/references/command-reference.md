@@ -27,7 +27,7 @@ Use `/help <command>` for one command, `/help examples` for common workflows, an
 | Command | What it does | Typical arguments |
 | --- | --- | --- |
 | `/help` | Explains commands, arguments, workflows, files, and troubleshooting. | `quiz`, `exercise`, `examples`, `state`, `troubleshooting` |
-| `/setup-learning` | Classifies the current repository, interviews the learner, drafts the map/glossary/curriculum, and asks before writing durable state. | none; answers to setup questions are stored |
+| `/setup-learning` | Classifies the current repository, interviews the learner, drafts the map/glossary/curriculum, asks about optional Git isolation, and asks before writing durable state. | none; answers to setup questions are stored |
 | `/teach` | Produces one focused lesson from real repository sources, with citations, a mental model, example, prediction, and task. | day, lesson, topic, path, symbol, test, bug, feature, `--inline`, `--both` |
 | `/quiz` | Runs a continuous single-answer A–D quiz, grading each response before showing the next question. | day, lesson, topic, `--count N`, `resume`, `progress` |
 | `/exercise` | Creates or opens a learner-owned exercise with stable question markers, answer regions, an active question, and approved checks. | day, lesson, topic, path, question ID, issue, bug, feature |
@@ -41,15 +41,45 @@ Use `/help <command>` for one command, `/help examples` for common workflows, an
 
 ## `/setup-learning`
 
-Use this first in a new repository. Overflow identifies the Git worktree, reads project documentation and standards, and classifies the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`. It then asks about the learner’s goal, experience, available time, preferred activity, output mode, and execution boundaries.
+Use this first in a new repository. Overflow identifies the Git worktree, reads project documentation and standards, and classifies the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`. It then asks about the learner’s goal, experience, available time, preferred activity, output mode, optional Git isolation, and execution boundaries. Git choices are local branch, separate worktree, current branch, or decide later.
 
-For a course, setup preserves the existing day or lesson order. For a source project, it creates a compact daily curriculum from technologies, dependencies, source structure, tests, and milestones without pre-generating every lesson. The learner confirms the draft before durable files are written.
+For a course, setup preserves the existing day or lesson order. For a source project, it creates a compact daily curriculum from technologies, dependencies, source structure, tests, and milestones without pre-generating every lesson. The learner confirms the draft before durable files are written. Before creating a branch or worktree, Overflow shows current status, dirty paths, base branch, base commit, target name, and exact command.
 
 ```text
 /setup-learning
 /setup-learning source project
 /setup-learning I want to understand the authentication flow
 ```
+
+## `/help git`
+
+Use `/help git` for the optional Git exercise workflow. The recommended path is:
+
+```text
+/setup-learning
+# choose local exercise branch or separate worktree
+/exercise day 01
+/assess
+# optionally confirm stage, commit, push, or draft pull request separately
+```
+
+Overflow uses `overflow/exercise/<slug>` branch names by default, refuses to branch from a dirty or detached checkout, checks for branch/worktree collisions, and records `.learning/git-workflow.json` only after successful creation. It never silently stashes, resets, cleans, commits, pushes, opens a pull request, merges, deletes a branch, or removes a worktree.
+
+The deterministic helper can inspect or plan without changing files:
+
+```bash
+python3 <overflow-skill>/scripts/git_workflow.py . --mode inspect --output json
+python3 <overflow-skill>/scripts/git_workflow.py . --mode plan --slug day-01-q03 --output json
+```
+
+Creation requires learner confirmation and an explicit apply step:
+
+```bash
+python3 <overflow-skill>/scripts/git_workflow.py . --mode branch --slug day-01-q03 --apply
+python3 <overflow-skill>/scripts/git_workflow.py . --mode worktree --slug parser-basics --worktree ../project-overflow-parser-basics --apply
+```
+
+A commit, push, draft pull request, merge, branch deletion, and worktree cleanup are separate decisions. Git artifacts support review and assessment but do not prove learning mastery.
 
 ## `/teach`
 
@@ -226,12 +256,17 @@ Overflow keeps learner-specific state in the current repository:
 ├── lessons/
 └── cache/
     └── evidence-map.json
+
+Optional Git state:
+
+```text
+.learning/git-workflow.json
 ```
 
 Existing `.learning/` state is reused when the package is renamed or reinstalled. Do not delete it during troubleshooting.
 
 ## Troubleshooting
 
-If a command is not available, verify the package was installed with `npx skills add codeKobby/overflow --all` and that the current host’s skill directory is configured. If the repository has not been initialized, run `/setup-learning`. If `/hint` or `/assess` cannot resolve a question, run `/exercise` or provide an explicit `CB-Q##` ID. If several exercises are active, choose the exercise and question shown by the agent instead of allowing a silent guess.
+If a command is not available, verify the package was installed with `npx skills add codeKobby/overflow --all` and that the current host’s skill directory is configured. If the repository has not been initialized, run `/setup-learning`. If `/hint` or `/assess` cannot resolve a question, run `/exercise` or provide an explicit `CB-Q##` ID. If several exercises are active, choose the exercise and question shown by the agent instead of allowing a silent guess. For Git issues, use `/help git` and inspect with `git_workflow.py --mode inspect`; do not delete or reset a branch to troubleshoot.
 
 If citations are stale, regenerate the lesson or assessment from the current source file. If checks fail, preserve the output, inspect the first relevant error, and ask `/explain` about it. If the native/inferred section map looks wrong, rerun `python3 <overflow-skill>/scripts/discover_evidence.py <path> --repository-type <type>` and ask setup to revise the evidence plan. Do not run undocumented destructive commands, expose secrets, or open canonical solutions merely to construct a hint.

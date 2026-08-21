@@ -25,6 +25,8 @@ A structured course has an ordered day index, lessons, exercises, hints, solutio
 
 Ask progressively rather than presenting one large questionnaire. Render each item as selectable options when possible, with `Other`, `Not sure`, and `Skip for now` where appropriate:
 
+Before asking to create exercise files, inspect Git status, current branch, default branch, remotes, existing branches, and worktrees. Ask how to isolate code exercises: **local exercise branch (recommended)**, **separate worktree**, **current branch**, or **decide later**. Explain that local branch/worktree creation is optional and that commits, pushes, pull requests, merges, branch deletion, and cleanup are separate confirmations. If the worktree is dirty, show the paths and do not silently stash, commit, reset, clean, or switch branches.
+
 1. What should you be able to do with this repository? Offer `understand`, `contribute`, `debug`, `extend`, `maintain`, `prepare for interviews`, and `Other`.
 2. What is your programming experience and experience with the main technologies? Offer beginner, familiar, intermediate, advanced, and `Not sure`.
 3. Which concepts do you already know? Offer a repository-derived multi-select list plus `None yet`, `All of these`, and `Other`.
@@ -32,6 +34,7 @@ Ask progressively rather than presenting one large questionnaire. Render each it
 5. Do you prefer reading, building, debugging, or a mixture? Offer single or multiple selections.
 6. Should generated lessons be Markdown, inline, or both? Recommend Markdown and explain why.
 7. Which commands, files, services, dependencies, or external systems must not be touched? Offer detected risky areas plus `None` and `Other`.
+8. If Git isolation is selected, should Overflow create a local branch, a separate worktree, or wait until the first code exercise? Store the choice only after confirmation.
 
 Accept `unknown`, record assumptions, and let the learner revise the answers later. Do not ask again when a stored answer is still valid.
 
@@ -47,7 +50,7 @@ Draft these files before writing their durable versions:
 .learning/CURRICULUM.draft.md
 ```
 
-`PROJECT_MAP.draft.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `PROJECT_GLOSSARY.draft.md` records project terms, abbreviations, symbols, aliases, plain-language definitions, and source anchors. `CURRICULUM.draft.md` records daily outcomes, concepts, source anchors, prerequisites, activities, a native-or-inferred evidence plan, verification, proof questions, finish-line gates, and review targets.
+`PROJECT_MAP.draft.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `PROJECT_GLOSSARY.draft.md` records project terms, abbreviations, symbols, aliases, plain-language definitions, and source anchors. `CURRICULUM.draft.md` records daily outcomes, concepts, source anchors, prerequisites, activities, a native-or-inferred evidence plan, verification, proof questions, finish-line gates, Git isolation preference, and review targets.
 
 Show a compact summary of each draft. Then ask a selectable confirmation question:
 
@@ -78,9 +81,14 @@ After acceptance, rename or rewrite the approved drafts as:
 ├── lessons/
 └── cache/
     └── evidence-map.json
+
+Optional Git state:
+
+```text
+.learning/git-workflow.json
 ```
 
-Initialize `progress.json` with repository type, current target, empty topics, and version 3. After learner confirmation, cache the compact native/inferred evidence inventory at `.learning/cache/evidence-map.json`. Do not claim mastery from setup. The plan is metadata only: do not generate all future lessons, full walkthroughs, complete solutions, or large quiz banks.
+Initialize `progress.json` with repository type, current target, empty topics, and version 3. After learner confirmation, cache the compact native/inferred evidence inventory at `.learning/cache/evidence-map.json`. If a Git branch or worktree was explicitly created, record its base branch, base commit, exercise branch, and path in `.learning/git-workflow.json`. Do not claim mastery from setup. The plan is metadata only: do not generate all future lessons, full walkthroughs, complete solutions, or large quiz banks.
 
 ## Configure output and next steps
 
@@ -92,7 +100,7 @@ Store the learner’s default in `.learning/CONFIG.md`. Present output mode as a
 /teach day 03 --both
 ```
 
-End setup by showing `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/learn`, `/progress`, and `/next` examples for the detected workspace. Explain that `/learn` reviews or corrects durable learning records and glossary terms, and that `/assess` can trigger native or inferred proof questions after implementation checks.
+End setup by showing `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/learn`, `/progress`, and `/next` examples for the detected workspace. Explain that `/learn` reviews or corrects durable learning records and glossary terms, `/assess` can trigger native or inferred proof questions after implementation checks, and Git commits/pushes/pull requests require separate confirmations.
 
 ## Safety and boundaries
 

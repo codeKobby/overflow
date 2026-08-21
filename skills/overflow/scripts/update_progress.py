@@ -38,6 +38,15 @@ def main() -> int:
             pass
     unresolved_proof = len(evidence.get("proof_questions_due", [])) if isinstance(evidence.get("proof_questions_due", []), list) else 0
     unresolved_finish = len(evidence.get("finish_gates_open", [])) if isinstance(evidence.get("finish_gates_open", []), list) else 0
+    git_state_path = state / "git-workflow.json"
+    git_state: dict[str, object] = {}
+    if git_state_path.exists():
+        try:
+            loaded_git_state = json.loads(git_state_path.read_text(encoding="utf-8"))
+            if isinstance(loaded_git_state, dict):
+                git_state = loaded_git_state
+        except json.JSONDecodeError:
+            git_state = {"status": "invalid git-workflow.json"}
     rows = []
     for name, item in sorted(topics.items()):
         if not isinstance(item, dict):
@@ -69,6 +78,19 @@ def main() -> int:
         f"- Finish-line gates open: {unresolved_finish}",
         "",
         "Use `/assess` to run approved implementation checks, then answer due proof questions and finish-line gates.",
+        "",
+        "## Git exercise workflow",
+        "",
+        f"- Mode: {git_state.get('mode', 'not configured')}",
+        f"- Base branch: {git_state.get('base_branch', 'not recorded')}",
+        f"- Base commit: {git_state.get('base_commit', 'not recorded')}",
+        f"- Exercise branch: {git_state.get('exercise_branch', 'not recorded')}",
+        f"- Worktree: {git_state.get('worktree_path') or 'main checkout'}",
+        f"- Commit status: {git_state.get('commit_status', 'not requested')}",
+        f"- Push status: {git_state.get('push_status', 'not requested')}",
+        f"- Pull-request status: {git_state.get('pull_request_status', 'not requested')}",
+        "",
+        "Git artifacts support review and diff evidence but do not prove mastery. Confirm stage, commit, push, pull request, merge, and cleanup actions separately.",
         "",
         "## Interpretation",
         "",

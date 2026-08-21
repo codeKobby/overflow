@@ -19,6 +19,11 @@ Store durable learner state in `.learning/` and do not modify course-owned curri
 ├── lessons/
 └── cache/
     └── evidence-map.json
+
+Optional Git metadata:
+
+```text
+.learning/git-workflow.json
 ```
 
 During setup, write `PROJECT_MAP.draft.md`, `PROJECT_GLOSSARY.draft.md`, and `CURRICULUM.draft.md` first. Show concise summaries, ask for learner confirmation, and only then write the durable versions. If existing files differ, show a proposed diff and ask before reconciling.
@@ -27,7 +32,7 @@ During setup, write `PROJECT_MAP.draft.md`, `PROJECT_GLOSSARY.draft.md`, and `CU
 
 `CONFIG.md` stores repository classification, learner experience, goals, time budget, activity preference, output mode, execution permissions, and safety boundaries. `MISSION.md` stores the learner’s current outcome and assumptions. `PROJECT_MAP.md` records entry points, technologies, directories, important symbols, tests, commands, milestones, risks, unknowns, and source anchors. `PROJECT_GLOSSARY.md` records project terms, aliases, symbols, plain-language definitions, and source anchors. `CURRICULUM.md` stores daily roadmap metadata, not full lessons.
 
-Each roadmap day should record an observable outcome, concepts, prerequisites, source anchors, activity, a native-or-inferred evidence plan, verification, and later review target. Setup must not pre-generate every lesson or quiz bank.
+Each roadmap day should record an observable outcome, concepts, prerequisites, source anchors, activity, a native-or-inferred evidence plan, verification, Git isolation preference when selected, and later review target. Setup must not pre-generate every lesson or quiz bank.
 
 ## Evidence map
 
@@ -77,7 +82,7 @@ Keep `status` qualitative. A multiple-choice score can strengthen retrieval evid
 
 ## Exercise manifests
 
-Store learner-owned exercise state under `.learning/exercises/<exercise-id>/`. Keep the source prompt path and a source hash so regeneration can detect changed course material. A manifest contains stable `CB-Q##` IDs, source anchors, target files, answer regions, acceptance criteria, approved checks, `active_question`, hint level, status, attempts, an optional native-or-inferred `evidence_plan`, and last evidence. Per-question status may be `not-started`, `scaffolded`, `in-progress`, `hinted`, `submitted`, `verified`, `needs-revision`, or `mastered`.
+Store learner-owned exercise state under `.learning/exercises/<exercise-id>/`. Keep the source prompt path and a source hash so regeneration can detect changed course material. A manifest contains stable `CB-Q##` IDs, source anchors, target files, answer regions, acceptance criteria, approved checks, `active_question`, hint level, status, attempts, an optional native-or-inferred `evidence_plan`, optional Git branch/worktree metadata, and last evidence. Per-question status may be `not-started`, `scaffolded`, `in-progress`, `hinted`, `submitted`, `verified`, `needs-revision`, or `mastered`.
 
 ```json
 {
@@ -104,7 +109,11 @@ Store learner-owned exercise state under `.learning/exercises/<exercise-id>/`. K
 }
 ```
 
-Keep the answer region executable whenever possible. If a learner submits a commented draft, record `evidence_mode: draft-answer` until a reversible activation or separate executable answer has run successfully. Record quality dimensions separately from correctness; a passing implementation can still have `quality: improvable` or `modernity: opportunity`. If a native or inferred proof plan exists, store direct-answer responses separately from code evidence and keep unresolved finish-line gates visible.
+Keep the answer region executable whenever possible. If a learner submits a commented draft, record `evidence_mode: draft-answer` until a reversible activation or separate executable answer has run successfully. Record quality dimensions separately from correctness; a passing implementation can still have `quality: improvable` or `modernity: opportunity`. If a native or inferred proof plan exists, store direct-answer responses separately from code evidence and keep unresolved finish-line gates visible. Git commits, branch diffs, pushes, and pull requests are evidence artifacts, not proof of mastery.
+
+## Git workflow state
+
+When the learner selects branch isolation, store `.learning/git-workflow.json` only after the requested branch or worktree is successfully created. Record `mode`, `base_branch`, `base_commit`, `exercise_branch`, `worktree_path`, `created_at`, `commit_status`, `push_status`, and `pull_request_status`. Keep commit, push, pull-request, merge, deletion, and branch-switch actions independently confirmed.
 
 ## Lesson artifacts
 
