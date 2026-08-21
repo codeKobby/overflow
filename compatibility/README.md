@@ -1,17 +1,17 @@
-# Code Buddy Agent Compatibility
+# Overflow Agent Compatibility
 
-`code-buddy` uses the open Agent Skills format: each command is a folder containing a `SKILL.md`. The package is designed to work across multiple coding agents, but support has levels. A name in the manifest is not, by itself, proof that a host has been tested.
+`overflow` uses the open Agent Skills format: each command is a folder containing a `SKILL.md`. The package is designed to work across multiple coding agents, but support has levels. A name in the manifest is not, by itself, proof that a host has been tested.
 
 ## Install the complete suite
 
 ```bash
-npx skills add codeKobby/code-buddy --all
+npx skills add codeKobby/overflow --all
 ```
 
 Install for selected hosts when the installer exposes them:
 
 ```bash
-npx skills add codeKobby/code-buddy --all \
+npx skills add codeKobby/overflow --all \
   -a claude-code \
   -a codex \
   -a cline \
@@ -19,7 +19,7 @@ npx skills add codeKobby/code-buddy --all \
   -a antigravity
 ```
 
-The package is also listed at [`skills.sh/codekobby/code-buddy`](https://skills.sh/codekobby/code-buddy). Search for it with `npx skills find code-buddy`; there is no separate registry-upload command. Use one distribution route per host where possible; do not install both a plugin copy and a skills-CLI copy of the same command because duplicate skill names can be confusing. The package also includes an optional Claude Code plugin manifest at `.claude-plugin/plugin.json`.
+The package is also listed at [`skills.sh/codekobby/overflow`](https://skills.sh/codekobby/overflow). Search for it with `npx skills find overflow`; there is no separate registry-upload command. Use one distribution route per host where possible; do not install both a plugin copy and a skills-CLI copy of the same command because duplicate skill names can be confusing. The package also includes an optional Claude Code plugin manifest at `.claude-plugin/plugin.json`.
 
 ## Tier A: native portable support
 
@@ -36,7 +36,7 @@ All Tier A hosts consume the same portable `SKILL.md` body. The `agents/openai.y
 
 ## Tier B: installer-routed support
 
-The package can be selected for Cursor, Factory Droid, Kiro, Slate, and Hermes through the open installer or a host-specific copy route. Their exact current project and global paths can change independently of code-buddy, so the package records these as adapter targets rather than pretending that one path is universal. Confirm the current host documentation before committing a project-local adapter.
+The package can be selected for Cursor, Factory Droid, Kiro, Slate, and Hermes through the open installer or a host-specific copy route. Their exact current project and global paths can change independently of overflow, so the package records these as adapter targets rather than pretending that one path is universal. Confirm the current host documentation before committing a project-local adapter.
 
 ## Tier C: bridge support
 

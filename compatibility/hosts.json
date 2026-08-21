@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "package": "code-buddy",
-  "version": "0.5.0",
-  "universal_install": "npx skills add codeKobby/code-buddy --all",
+  "package": "overflow",
+  "version": "0.6.0",
+  "universal_install": "npx skills add codeKobby/overflow --all",
   "hosts": [
     {
       "id": "claude-code",
@@ -11,7 +11,7 @@
       "project_paths": [".claude/skills/<skill>/SKILL.md"],
       "global_paths": ["~/.claude/skills/<skill>/SKILL.md"],
       "invocation": ["/<skill>", "automatic"],
-      "install": ["claude plugins install code-buddy", "npx skills add codeKobby/code-buddy --all -a claude-code"],
+      "install": ["claude plugins install overflow", "npx skills add codeKobby/overflow --all -a claude-code"],
       "metadata": ["standard frontmatter", "optional Claude plugin manifest"]
     },
     {
@@ -21,7 +21,7 @@
       "project_paths": [".agents/skills/<skill>/SKILL.md"],
       "global_paths": ["~/.agents/skills/<skill>/SKILL.md"],
       "invocation": ["skill picker", "explicit skill use"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a codex"],
+      "install": ["npx skills add codeKobby/overflow --all -a codex"],
       "metadata": ["agents/openai.yaml"]
     },
     {
@@ -31,7 +31,7 @@
       "project_paths": [".cline/skills/<skill>/SKILL.md", ".clinerules/skills/<skill>/SKILL.md", ".claude/skills/<skill>/SKILL.md"],
       "global_paths": ["~/.cline/skills/<skill>/SKILL.md"],
       "invocation": ["slash command", "automatic use_skill"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a cline"]
+      "install": ["npx skills add codeKobby/overflow --all -a cline"]
     },
     {
       "id": "opencode",
@@ -40,7 +40,7 @@
       "project_paths": [".opencode/skills/<skill>/SKILL.md", ".agents/skills/<skill>/SKILL.md", ".claude/skills/<skill>/SKILL.md"],
       "global_paths": ["~/.config/opencode/skills/<skill>/SKILL.md", "~/.agents/skills/<skill>/SKILL.md", "~/.claude/skills/<skill>/SKILL.md"],
       "invocation": ["native skill tool", "slash UI"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a opencode"],
+      "install": ["npx skills add codeKobby/overflow --all -a opencode"],
       "permissions": ["allow", "ask", "deny"]
     },
     {
@@ -50,7 +50,7 @@
       "project_paths": [".agents/skills/<skill>/SKILL.md", ".agent/skills/<skill>/SKILL.md"],
       "global_paths": ["~/.gemini/config/skills/<skill>/SKILL.md"],
       "invocation": ["automatic", "explicit skill mention"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a antigravity"]
+      "install": ["npx skills add codeKobby/overflow --all -a antigravity"]
     },
     {
       "id": "copilot-vscode",
@@ -69,7 +69,7 @@
       "project_paths": ["host-specific; verify current release"],
       "global_paths": ["host-specific; verify current release"],
       "invocation": ["host skill UI or slash command"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a cursor"]
+      "install": ["npx skills add codeKobby/overflow --all -a cursor"]
     },
     {
       "id": "factory",
@@ -78,7 +78,7 @@
       "project_paths": ["host-specific; verify current release"],
       "global_paths": ["host-specific; verify current release"],
       "invocation": ["host skill UI"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a factory"]
+      "install": ["npx skills add codeKobby/overflow --all -a factory"]
     },
     {
       "id": "kiro",
@@ -87,7 +87,7 @@
       "project_paths": ["host-specific; verify current release"],
       "global_paths": ["host-specific; verify current release"],
       "invocation": ["host skill UI"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a kiro"]
+      "install": ["npx skills add codeKobby/overflow --all -a kiro"]
     },
     {
       "id": "slate",
@@ -96,7 +96,7 @@
       "project_paths": ["host-specific; verify current release"],
       "global_paths": ["host-specific; verify current release"],
       "invocation": ["host skill UI"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a slate"]
+      "install": ["npx skills add codeKobby/overflow --all -a slate"]
     },
     {
       "id": "hermes",
@@ -105,7 +105,7 @@
       "project_paths": ["host-specific; verify current release"],
       "global_paths": ["host-specific; verify current release"],
       "invocation": ["host skill UI"],
-      "install": ["npx skills add codeKobby/code-buddy --all -a hermes"]
+      "install": ["npx skills add codeKobby/overflow --all -a hermes"]
     },
     {
       "id": "openclaw",

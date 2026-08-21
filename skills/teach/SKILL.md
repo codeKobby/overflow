@@ -3,11 +3,11 @@ name: teach
 description: Teach one focused programming concept from the current repository’s lessons, documentation, source files, tests, symbols, or bugs, using a plain-language mental model, runnable example, prediction, code trace, limitation, and learner-owned practice. Use when the user asks to learn from a codebase, understand a lesson, or be taught step by step.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Teach
+# Overflow Teach
 
 Teach one small concept tied to the repository’s curriculum and the learner’s mission. Prefer a short episode over a long lecture. Present lesson mode, output format, help level, and exercise choices as selectable questions when supported; otherwise use numbered or lettered text.
 

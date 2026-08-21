@@ -1,13 +1,13 @@
 ---
 name: hint
-description: Give a progressive, non-spoiling hint for the active code-buddy exercise question by reading its marker, prompt, answer region, source lesson, and recent attempt. Use when the learner asks for a hint, help, clue, pseudocode, or guidance on the current exercise.
+description: Give a progressive, non-spoiling hint for the active overflow exercise question by reading its marker, prompt, answer region, source lesson, and recent attempt. Use when the learner asks for a hint, help, clue, pseudocode, or guidance on the current exercise.
 license: MIT
 metadata:
-  package: code-buddy
-  version: "0.5.0"
+  package: overflow
+  version: "0.6.0"
 ---
 
-# Code Buddy Hint
+# Overflow Hint
 
 Help the learner continue their current exercise without taking ownership of the implementation. Resolve the active question from `.learning/exercises/*/manifest.json`, inspect the marked answer region and recent attempt, and give the smallest useful clue.
 

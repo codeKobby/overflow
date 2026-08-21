@@ -1,6 +1,6 @@
 # Comment-Driven Exercises
 
-Use this contract when a learner wants to answer course questions directly in code and later ask code-buddy for a hint or assessment.
+Use this contract when a learner wants to answer course questions directly in code and later ask overflow for a hint or assessment.
 
 ## Core idea
 

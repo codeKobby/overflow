@@ -1,13 +1,13 @@
 ---
 name: review
-description: Run spaced retrieval practice over weak, overdue, or recently corrected programming topics from code-buddy progress state. Mix related concepts and recommend the next review without overwhelming the learner. Use when the user asks to review, revise, practise older material, or study due topics.
+description: Run spaced retrieval practice over weak, overdue, or recently corrected programming topics from overflow progress state. Mix related concepts and recommend the next review without overwhelming the learner. Use when the user asks to review, revise, practise older material, or study due topics.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Review
+# Overflow Review
 
 Read `.learning/progress.json`, recent quiz sessions, assessments, misconceptions, and review dates. Select a manageable set of due or weak topics. Present review scope, daily load, interleaving, and output choices as selectable questions when supported; otherwise use numbered or lettered text.
  Prefer effortful retrieval and changed examples over rereading.

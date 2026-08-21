@@ -1,42 +1,42 @@
-# code-buddy
+# overflow
 
-`code-buddy` is an installable Agent Skills suite for learning from almost any local repository or existing codebase. It supports continuous multiple-choice quizzes, flexible day or topic or file targeting, repository-aware teaching, guided exercises, code examination, explanations, review, and Markdown progress tracking. The three zero-to-hero courses are supported examples, not a limitation.
+`overflow` is an installable Agent Skills suite for learning from almost any local repository or existing codebase. It supports continuous multiple-choice quizzes, flexible day or topic or file targeting, repository-aware teaching, guided exercises, code examination, explanations, review, and Markdown progress tracking. The three zero-to-hero courses are supported examples, not a limitation.
 
 ## Install
 
 Install the complete suite from its Git repository with the open skills installer:
 
 ```bash
-npx skills add codeKobby/code-buddy --all
+npx skills add codeKobby/overflow --all
 ```
 
 Install only selected commands:
 
 ```bash
-npx skills add codeKobby/code-buddy --skill quiz --skill exercise --skill hint --skill assess --skill progress
+npx skills add codeKobby/overflow --skill quiz --skill exercise --skill hint --skill assess --skill progress
 ```
 
 Target specific agents:
 
 ```bash
-npx skills add codeKobby/code-buddy --all \
+npx skills add codeKobby/overflow --all \
   -a claude-code -a codex -a cline -a opencode -a antigravity
 ```
 
 Install globally instead of only in the current project:
 
 ```bash
-npx skills add codeKobby/code-buddy --all --global
+npx skills add codeKobby/overflow --all --global
 ```
 
 The installer can use symlinks for a shared source of truth or copies when symlinks are unavailable. Update later with `npx skills update`.
 
 ## skills.sh directory
 
-The package is listed in the [`skills.sh` directory](https://skills.sh/codekobby/code-buddy). There is no separate publishing command: the current skills ecosystem indexes public Git repositories through the normal `npx skills add` installation flow and its anonymous discovery telemetry. Users can also search for it with:
+The package is listed in the [`skills.sh` directory](https://skills.sh/codekobby/overflow). There is no separate publishing command: the current skills ecosystem indexes public Git repositories through the normal `npx skills add` installation flow and its anonymous discovery telemetry. Users can also search for it with:
 
 ```bash
-npx skills find code-buddy
+npx skills find overflow
 ```
 
 For the official publishing and package-format guidance, see the [Vercel Agent Skills guide](https://vercel.com/kb/guide/agent-skills-creating-installing-and-sharing-reusable-agent-context). Review the repository and scripts before installation, as recommended for all agent skills.
@@ -55,7 +55,7 @@ Every host must preserve explicit invocation, progressive loading, relative refe
 
 ## Interactive choices
 
-Whenever code-buddy asks the learner to choose a goal, experience level, curriculum length, study schedule, lesson format, quiz count, difficulty, hint level, assessment mode, or next action, it should render the options as selectable questions when the current coding agent supports interactive choices. In text-only agents, it presents the same options as numbered or lettered choices and accepts the option label or a natural-language response. Stored answers are not asked again unless the learner wants to change them.
+Whenever overflow asks the learner to choose a goal, experience level, curriculum length, study schedule, lesson format, quiz count, difficulty, hint level, assessment mode, or next action, it should render the options as selectable questions when the current coding agent supports interactive choices. In text-only agents, it presents the same options as numbered or lettered choices and accepts the option label or a natural-language response. Stored answers are not asked again unless the learner wants to change them.
 
 The continuous quiz itself uses the same interaction model: learners can click an A–D option where supported, or reply with a letter, number, or exact option text.
 
@@ -154,7 +154,7 @@ The suite recognizes the user’s JavaScript/TypeScript, Python cybersecurity, a
 
 `/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones.
 
-It does **not** generate every future lesson. When the learner selects a day, topic, file, function, component, test, bug, or feature, code-buddy produces the detailed lesson on demand. Markdown is recommended because the lesson can be revisited and assessed later:
+It does **not** generate every future lesson. When the learner selects a day, topic, file, function, component, test, bug, or feature, overflow produces the detailed lesson on demand. Markdown is recommended because the lesson can be revisited and assessed later:
 
 ```text
 /teach day 03

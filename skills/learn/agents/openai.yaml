@@ -1,5 +1,5 @@
 interface:
-  display_name: Code Buddy Learn
+  display_name: Overflow Learn
   short_description: Review, correct, and export durable learning memory.
 policy:
   allow_implicit_invocation: false

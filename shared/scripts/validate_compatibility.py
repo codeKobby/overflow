@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the public code-buddy distribution compatibility contract."""
+"""Validate the public overflow distribution compatibility contract."""
 
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ REQUIRED_HOSTS = {
     "gbrain",
 }
 REQUIRED_SKILLS = {
-    "code-buddy",
+    "overflow",
     "setup-learning",
     "teach",
     "quiz",
@@ -67,8 +67,8 @@ def validate(root: Path) -> list[str]:
         return errors
 
     version = manifest.get("version")
-    if version != "0.5.0":
-        fail(f"manifest version must be 0.5.0, got {version!r}", errors)
+    if version != "0.6.0":
+        fail(f"manifest version must be 0.6.0, got {version!r}", errors)
     skills = set(manifest.get("skills", []))
     missing_skills = REQUIRED_SKILLS - skills
     if missing_skills:
@@ -121,7 +121,7 @@ def validate(root: Path) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("root", type=Path, help="code-buddy distribution root")
+    parser.add_argument("root", type=Path, help="overflow distribution root")
     parser.add_argument("--json", action="store_true", help="emit structured JSON")
     args = parser.parse_args()
 
@@ -134,7 +134,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
     else:
-        print("VALID: code-buddy compatibility contract")
+        print("VALID: overflow compatibility contract")
     return 1 if errors else 0
 
 

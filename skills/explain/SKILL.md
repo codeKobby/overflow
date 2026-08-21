@@ -3,11 +3,11 @@ name: explain
 description: Explain one programming concept, error, code block, test failure, or assessment comment using the current course’s vocabulary, prerequisites, traces, examples, and limitations. Use when the learner asks why code behaves a certain way or requests clarification without wanting the whole exercise solved.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Explain
+# Overflow Explain
 
 Explain one thing at a time. Start from the learner’s question and relevant prerequisite. When depth, output mode, or follow-up practice is not already clear, ask with selectable options when supported and use text choices otherwise.
  Distinguish observation from inference, trace the behavior, show a minimal example, name one edge case or limitation, and close with a prediction question.

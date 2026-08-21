@@ -3,11 +3,11 @@ name: quiz
 description: Run continuous multiple-choice programming quizzes from the current repository’s lessons, documentation, files, symbols, tests, or existing codebase. Accept day 1, 01, 001, day one, lesson names, topics, resume, and progress targets; grade each A–D answer and immediately continue to the next question. Use when the user asks for a quiz or wants to test understanding.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Quiz
+# Overflow Quiz
 
 Run a normal continuous quiz session grounded in the current repository. Do not require a new command between questions. Present target, count, difficulty, output mode, and optional settings as selectable questions when supported; otherwise use numbered or lettered text with the same choices and accept text equivalents.
 

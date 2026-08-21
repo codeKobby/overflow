@@ -1,9 +1,9 @@
 ---
 name: setup-learning
-description: Initialize code-buddy in any local repository or programming-course codebase by classifying the workspace, interviewing the learner, mapping documentation and source structure, drafting a project map, glossary, and lightweight daily curriculum, and asking for confirmation before writing durable .learning state. Use when starting code-buddy or when the user asks to set up learning progress.
+description: Initialize overflow in any local repository or programming-course codebase by classifying the workspace, interviewing the learner, mapping documentation and source structure, drafting a project map, glossary, and lightweight daily curriculum, and asking for confirmation before writing durable .learning state. Use when starting overflow or when the user asks to set up learning progress.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.3.0"
 ---
 

@@ -2,7 +2,7 @@
 
 ## Support model
 
-`code-buddy` is a portable Agent Skills package. Keep the canonical skill behavior host-neutral, then use the host matrix for discovery paths, invocation details, installation, and validation.
+`overflow` is a portable Agent Skills package. Keep the canonical skill behavior host-neutral, then use the host matrix for discovery paths, invocation details, installation, and validation.
 
 | Tier | Meaning |
 | --- | --- |
@@ -39,13 +39,13 @@ Every command must work when explicitly invoked and must degrade selectable ques
 Universal install:
 
 ```bash
-npx skills add codeKobby/code-buddy --all
+npx skills add codeKobby/overflow --all
 ```
 
 Targeted install where the CLI supports host selection:
 
 ```bash
-npx skills add codeKobby/code-buddy --all -a claude-code -a codex -a cline -a opencode
+npx skills add codeKobby/overflow --all -a claude-code -a codex -a cline -a opencode
 ```
 
 Manual installation means placing the selected skill directory under the project or global path shown in the matrix. Prefer project-local installation when sharing a team workflow; prefer global installation for personal learning across repositories.

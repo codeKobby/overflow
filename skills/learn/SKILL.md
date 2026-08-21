@@ -1,13 +1,13 @@
 ---
 name: learn
-description: Manage code-buddy’s durable learning memory across sessions by reviewing, searching, correcting, pruning, and exporting learning records, glossary terms, misconceptions, and learner preferences. Use when the learner asks what they have learned, wants to revisit past lessons, correct stale memory, or inspect progress evidence.
+description: Manage overflow’s durable learning memory across sessions by reviewing, searching, correcting, pruning, and exporting learning records, glossary terms, misconceptions, and learner preferences. Use when the learner asks what they have learned, wants to revisit past lessons, correct stale memory, or inspect progress evidence.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.3.0"
 ---
 
-# Code Buddy Learn
+# Overflow Learn
 
 Manage learner-owned memory in the current repository. Do not turn every conversation into a permanent record. Record durable memory only after a lesson, attempt, assessment, correction, or explicit learner reflection.
 

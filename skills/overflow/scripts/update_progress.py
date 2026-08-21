@@ -36,7 +36,7 @@ def main() -> int:
     if not rows:
         rows.append("| No topics recorded | new | 0.00 | not scheduled |")
     markdown = "\n".join([
-        "# Code Buddy Progress",
+        "# Overflow Progress",
         "",
         f"- Updated: {date.today().isoformat()}",
         f"- Course: {progress.get('course', 'unknown')}",

@@ -1,13 +1,13 @@
 ---
 name: next
-description: Recommend the next learning action in a repository-based programming course by inspecting code-buddy mission, progress, quizzes, exercises, assessments, misconceptions, and review dates. Use when the user asks what to do next or wants a personalized learning path.
+description: Recommend the next learning action in a repository-based programming course by inspecting overflow mission, progress, quizzes, exercises, assessments, misconceptions, and review dates. Use when the user asks what to do next or wants a personalized learning path.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Next
+# Overflow Next
 
 Inspect `.learning/` and the course index before recommending an action. Choose one concrete next step, not a long list. Present the candidate actions as a selectable question when supported; otherwise use numbered or lettered text and accept a natural-language answer.
 

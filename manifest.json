@@ -1,9 +1,9 @@
 {
-  "name": "code-buddy",
-  "version": "0.5.0",
+  "name": "overflow",
+  "version": "0.6.0",
   "description": "Repository-native learning coach for arbitrary codebases and courses with continuous quizzes, comment-driven exercises, active hints, executable assessment, on-demand lessons, and progress.",
   "skills": [
-    "code-buddy",
+    "overflow",
     "setup-learning",
     "teach",
     "quiz",
@@ -39,11 +39,11 @@
       "B": "installer-routed",
       "C": "bridge"
     },
-    "universal_install": "npx skills add codeKobby/code-buddy --all",
+    "universal_install": "npx skills add codeKobby/overflow --all",
     "directory": {
       "name": "skills.sh",
-      "url": "https://skills.sh/codekobby/code-buddy",
-      "search": "npx skills find code-buddy",
+      "url": "https://skills.sh/codekobby/overflow",
+      "search": "npx skills find overflow",
       "publishing": "automatic-via-public-repository-installation"
     }
   },

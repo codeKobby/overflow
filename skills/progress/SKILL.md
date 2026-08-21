@@ -1,13 +1,13 @@
 ---
 name: progress
-description: Recompute and explain code-buddy learning progress from .learning state, quiz sessions, attempts, assessments, misconceptions, and review dates. Use when the user asks how they are doing, what they have mastered, or what needs review.
+description: Recompute and explain overflow learning progress from .learning state, quiz sessions, attempts, assessments, misconceptions, and review dates. Use when the user asks how they are doing, what they have mastered, or what needs review.
 license: MIT
 metadata:
-  package: code-buddy
+  package: overflow
   version: "0.2.0"
 ---
 
-# Code Buddy Progress
+# Overflow Progress
 
 Read `.learning/progress.json` and related records, then regenerate `.learning/PROGRESS.md` without overwriting learner-authored mission or evidence notes. Present filters such as topic, date range, evidence type, and output mode as selectable questions when supported; otherwise use numbered or lettered text.
 

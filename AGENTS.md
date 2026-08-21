@@ -1,6 +1,6 @@
-# Code Buddy Agent Guidance
+# Overflow Agent Guidance
 
-`code-buddy` is a portable Agent Skills suite. Do not assume it is Claude-only or tied to the three example courses.
+`overflow` is a portable Agent Skills suite. Do not assume it is Claude-only or tied to the three example courses.
 
 ## Compatibility rule
 

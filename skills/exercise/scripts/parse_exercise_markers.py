@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parse code-buddy question, answer, and hint markers from a file or repository."""
+"""Parse overflow question, answer, and hint markers from a file or repository."""
 
 from __future__ import annotations
 

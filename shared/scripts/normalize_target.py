@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Normalize code-buddy day, lesson, and topic target text."""
+"""Normalize overflow day, lesson, and topic target text."""
 from __future__ import annotations
 
 import argparse

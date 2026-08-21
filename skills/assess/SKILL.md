@@ -1,13 +1,13 @@
 ---
 name: assess
-description: Assess a learner’s comment-marked code-buddy exercise by resolving its CB question ID, inspecting the linked prompt and answer region, optionally activating a reversible copy, running approved checks, and reporting correctness, reasoning, edge cases, maintainability, complexity, and modernity. Use when the learner asks to assess, grade, examine, verify, or review completed exercise code.
+description: Assess a learner’s comment-marked overflow exercise by resolving its CB question ID, inspecting the linked prompt and answer region, optionally activating a reversible copy, running approved checks, and reporting correctness, reasoning, edge cases, maintainability, complexity, and modernity. Use when the learner asks to assess, grade, examine, verify, or review completed exercise code.
 license: MIT
 metadata:
-  package: code-buddy
-  version: "0.5.0"
+  package: overflow
+  version: "0.6.0"
 ---
 
-# Code Buddy Assessment
+# Overflow Assessment
 
 Assess the learner’s actual evidence, not confidence or similarity to a canonical solution. Read `references/comment-driven-exercises.md` from the exercise skill when the manifest, marker, answer region, or hint state needs interpretation.
 

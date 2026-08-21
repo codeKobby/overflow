@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Resolve an active code-buddy exercise question from learner manifests."""
+"""Resolve an active overflow exercise question from learner manifests."""
 
 from __future__ import annotations
 

@@ -3,11 +3,11 @@ name: exercise
 description: Create or open repository-native coding exercises with stable CB question markers and learner-owned answer regions, then track the active question for `/hint` and `/assess`. Use when the learner asks for practice, a daily exercise file, a question scaffold, help with an exercise, or assessment of completed code.
 license: MIT
 metadata:
-  package: code-buddy
-  version: "0.5.0"
+  package: overflow
+  version: "0.6.0"
 ---
 
-# Code Buddy Exercise
+# Overflow Exercise
 
 Turn an existing course exercise, TODO, failing test, issue, project milestone, or source-code task into a learner-owned, comment-driven work item. The learner should be able to answer in code, ask `/hint` without repeating the question, run the approved checks, and invoke `/assess` when ready.
 
@@ -31,7 +31,7 @@ When the learner asks to start an exercise, present choices for the source, ques
 For a numbered Markdown prompt, the deterministic helper can create a first scaffold:
 
 ```bash
-python3 <code-buddy-skill>/scripts/scaffold_exercise.py \
+python3 <overflow-skill>/scripts/scaffold_exercise.py \
   day_1_setup_and_safe_practice/practice/exercises.md \
   --root . \
   --exercise-id day-01-setup \
