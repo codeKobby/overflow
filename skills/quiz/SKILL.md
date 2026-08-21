@@ -4,12 +4,12 @@ description: Run continuous multiple-choice programming quizzes from the current
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Code Buddy Quiz
 
-Run a normal continuous quiz session grounded in the current repository. Do not require a new command between questions.
+Run a normal continuous quiz session grounded in the current repository. Do not require a new command between questions. Present target, count, difficulty, output mode, and optional settings as selectable questions when supported; otherwise use numbered or lettered text with the same choices and accept text equivalents.
 
 ## Resolve the target
 
@@ -19,7 +19,8 @@ Normalize leading zeroes, number words, punctuation, separators, case, `day`/`le
 
 ## Start and continue the session
 
-Default to ten questions for a day and five for a topic. Support `--count N` and `--difficulty easy|medium|hard|adaptive`. Use single-answer questions with exactly four options labelled A–D. Mix concept retrieval, code tracing, output prediction, debugging diagnosis, transfer choices, edge cases, and cybersecurity scope judgment where appropriate.
+Default to ten questions for a day and five for a topic. If count or difficulty is not already stored, ask with selectable options and mark the default. Support `--count N` and `--difficulty easy|medium|hard|adaptive`. Use single-answer questions with exactly four options labelled A–D.
+ Mix concept retrieval, code tracing, output prediction, debugging diagnosis, transfer choices, edge cases, and cybersecurity scope judgment where appropriate.
 
 Save the session before question 1 and after every answer under `.learning/quiz-sessions/`. Keep the answer key out of learner-visible active transcripts. Ask one question. When the learner answers with a letter, option number, or exact option text, normalize it, grade it, explain the result briefly, and immediately show the next question.
 
@@ -31,7 +32,8 @@ After each valid answer:
 4. Record the topic, hint usage, and evidence strength.
 5. Present the next question unless the session is complete.
 
-An ambiguous answer is clarification, not a wrong answer. Support `hint`, `explain`, `pause`, `save`, `progress`, `finish`, `quit`, and `back`. A hint must not reveal the answer. `/quiz resume` resumes the latest incomplete session.
+An ambiguous answer is clarification, not a wrong answer. Present session controls such as hint level, pause, save, progress, finish, quit, and back as selectable options when the agent supports them, while accepting those words in text. Support `hint`, `explain`, `pause`, `save`, `progress`, `finish`, `quit`, and `back`.
+ A hint must not reveal the answer. `/quiz resume` resumes the latest incomplete session.
 
 ## Completion
 

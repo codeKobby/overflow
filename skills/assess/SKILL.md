@@ -4,12 +4,12 @@ description: Assess a learner’s code, diff, answer, test output, pull request,
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Code Buddy Assessment
 
-Assess evidence, not confidence alone. Accept a file path, diff, pasted code, written answer, test output, or the most recent attempt.
+Assess evidence, not confidence alone. Accept a file path, diff, pasted code, written answer, test output, or the most recent attempt. Present assessment target, output mode, and optional rubric emphasis as selectable questions when supported; otherwise use numbered or lettered text.
 
 ## Workflow
 
@@ -18,9 +18,9 @@ Assess evidence, not confidence alone. Accept a file path, diff, pasted code, wr
 3. Inspect only the submitted artifact and necessary supporting files.
 4. Run documented local checks only when allowed and report exactly what ran.
 5. Separate observations from inferences.
-6. Use the verdict `not-demonstrated`, `emerging`, `reliable`, or `transferable`.
+6. Use the verdict `not-demonstrated`, `emerging`, `reliable`, or `transferable`; when the learner wants to discuss the result, present these interpretations as selectable options before asking for the next decision.
 7. Write `.learning/assessments/YYYY-MM-DD-topic.md` for substantial assessments, or respond inline for brief feedback.
-8. Update progress evidence and recommend one next action.
+8. Update progress evidence and present the recommended next action as a selectable question with `Other` when possible.
 
 ## Rubric
 

@@ -4,12 +4,12 @@ description: Recommend the next learning action in a repository-based programmin
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Code Buddy Next
 
-Inspect `.learning/` and the course index before recommending an action. Choose one concrete next step, not a long list.
+Inspect `.learning/` and the course index before recommending an action. Choose one concrete next step, not a long list. Present the candidate actions as a selectable question when supported; otherwise use numbered or lettered text and accept a natural-language answer.
 
 Use this priority:
 
@@ -20,6 +20,7 @@ Use this priority:
 5. Transfer task for a recently learned topic.
 6. Next lesson or project milestone.
 
-Explain why the action is next, which evidence supports it, what the learner should produce, and which command to run. Prefer `/review`, `/teach`, `/exercise`, `/assess`, or `/quiz` with a precise target. Do not automatically advance to a new day when required evidence is missing.
+Explain why the action is next, which evidence supports it, what the learner should produce, and which command to run. Mark one recommended option and include `Other` or `Not sure`. Prefer `/review`, `/teach`, `/exercise`, `/assess`, or `/quiz` with a precise target.
+ Do not automatically advance to a new day when required evidence is missing.
 
 If `.learning/` is missing, recommend `/setup-learning`. If the learner has conflicting state, show it and ask before changing history.

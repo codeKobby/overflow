@@ -31,6 +31,12 @@ npx skills add codeKobby/code-buddy --all --global
 
 The installer can use symlinks for a shared source of truth or copies when symlinks are unavailable. Update later with `npx skills update`.
 
+## Interactive choices
+
+Whenever code-buddy asks the learner to choose a goal, experience level, curriculum length, study schedule, lesson format, quiz count, difficulty, hint level, assessment mode, or next action, it should render the options as selectable questions when the current coding agent supports interactive choices. In text-only agents, it presents the same options as numbered or lettered choices and accepts the option label or a natural-language response. Stored answers are not asked again unless the learner wants to change them.
+
+The continuous quiz itself uses the same interaction model: learners can click an A–D option where supported, or reply with a letter, number, or exact option text.
+
 ## Commands
 
 | Command | Purpose |
@@ -98,6 +104,20 @@ Examples include:
 ```
 
 The suite recognizes the user’s JavaScript/TypeScript, Python cybersecurity, and React/Next.js repositories from their own standards, but those are supported examples rather than a hard-coded boundary. For any other language or framework, the project’s own documentation, tests, conventions, and learner-stated goal become the source of truth. Cybersecurity tasks remain local, synthetic, authorized, bounded, and explicit about evidence and cleanup.
+
+## Initialization and on-demand lessons
+
+`/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones.
+
+It does **not** generate every future lesson. When the learner selects a day, topic, file, function, component, test, bug, or feature, code-buddy produces the detailed lesson on demand. Markdown is recommended because the lesson can be revisited and assessed later:
+
+```text
+/teach day 03
+/teach day 03 --inline
+/teach src/parser.py --both
+```
+
+Generated Markdown lessons cite real repository-relative paths, symbols, tests, and exact line ranges with short source excerpts. The agent never guesses line numbers and redacts secrets or sensitive data.
 
 ## Local validation
 

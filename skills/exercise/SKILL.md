@@ -4,12 +4,12 @@ description: Select or create a concrete programming exercise from the current r
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Code Buddy Exercise
 
-Prefer the repository’s existing exercises, TODOs, failing tests, issue descriptions, examples, and project milestones over inventing a competing assignment. Resolve a requested day, lesson, topic, file, bug, feature, or current exercise.
+Prefer the repository’s existing exercises, TODOs, failing tests, issue descriptions, examples, and project milestones over inventing a competing assignment. Resolve a requested day, lesson, topic, file, bug, feature, or current exercise. Present exercise type, difficulty, help level, verification permission, and output format as selectable questions when supported; otherwise use numbered or lettered text.
 
 ## Exercise contract
 
@@ -22,7 +22,8 @@ State the starting input or project state, the expected output or behavior, conc
 5. Handle an edge case, malformed input, failure path, or negative test.
 6. Attempt a stretch challenge only after the core task.
 
-Ask the learner to attempt the work before showing a solution. Use the help ladder: question, reminder, targeted hint, partial scaffold, comparable example, solution review. Inspect diffs and run documented checks only when allowed; do not silently implement the task.
+Ask the learner to attempt the work before showing a solution. Present the exercise’s next-step choices and help ladder interactively when supported: question, reminder, targeted hint, partial scaffold, comparable example, solution review.
+ Inspect diffs and run documented checks only when allowed; do not silently implement the task.
 
 For Python cybersecurity, require local or synthetic targets, explicit authorization, permitted actions, evidence, cleanup, and stop conditions. Do not use real credentials, public targets, private logs, or unauthorized systems. For other repositories, follow the project’s documented conventions and ask before modifying files or accessing external services.
 
