@@ -7,26 +7,26 @@
 Install the complete suite from its Git repository with the open skills installer:
 
 ```bash
-npx skills add <owner>/code-buddy --all
+npx skills add codeKobby/code-buddy --all
 ```
 
 Install only selected commands:
 
 ```bash
-npx skills add <owner>/code-buddy --skill quiz --skill assess --skill progress
+npx skills add codeKobby/code-buddy --skill quiz --skill assess --skill progress
 ```
 
 Target specific agents:
 
 ```bash
-npx skills add <owner>/code-buddy --all \
+npx skills add codeKobby/code-buddy --all \
   -a claude-code -a codex -a cline -a opencode
 ```
 
 Install globally instead of only in the current project:
 
 ```bash
-npx skills add <owner>/code-buddy --all --global
+npx skills add codeKobby/code-buddy --all --global
 ```
 
 The installer can use symlinks for a shared source of truth or copies when symlinks are unavailable. Update later with `npx skills update`.
