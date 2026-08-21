@@ -4,7 +4,7 @@ description: Explain the Overflow learning-agent commands, accepted arguments, e
 license: MIT
 metadata:
   package: overflow
-  version: "0.6.0"
+  version: "0.10.0"
 ---
 
 # Overflow Help
@@ -19,7 +19,9 @@ For `/help` with no argument, show a concise command map grouped into **start**,
 /setup-learning → /teach or /quiz → /exercise → /hint → /assess → /progress → /next
 ```
 
-For `/help <command>`, explain only that command first, then offer related commands as selectable choices or numbered options. Accept aliases such as `setup`, `lesson`, `practice`, `grade`, `memory`, `commands`, `examples`, `state`, `install`, and `troubleshooting`.
+For `/help <command>`, explain only that command first, then offer related commands as selectable choices or numbered options. Accept aliases such as `setup`, `lesson`, `practice`, `grade`, `memory`, `commands`, `examples`, `state`, `install`, `troubleshooting`, `handoff`, and `routing`.
+
+When the learner asks for a learning command but `.learning/` is missing or incomplete, explain the readiness gate and offer `/setup-learning`, a one-off stateless response when meaningful, an inspection of what setup would do, or cancellation. Do not imply that the repository is initialized until the readiness check confirms it.
 
 Use selectable questions when the host supports them. Otherwise use numbered or lettered choices and accept the option label or natural-language equivalent. Do not require a proprietary question UI.
 
@@ -39,10 +41,10 @@ Keep the default overview short. When the learner asks for examples, show realis
 
 Explain that `/teach` creates an on-demand lesson, `/quiz` tests retrieval with continuous A–D questions, `/exercise` creates or opens implementation work, `/hint` gives progressive non-spoiling help, and `/assess` evaluates evidence after an attempt. Explain that `/progress` reports evidence and `/next` recommends an action; neither silently completes work.
 
-Explain that Markdown is the recommended durable output mode, while `--inline` keeps the response in chat and `--both` provides both. Explain that `.learning/` belongs to the learner’s repository and should not be deleted during reinstall or troubleshooting.
+Explain that Markdown is the recommended durable output mode, while `--inline` keeps the response in chat and `--both` provides both. Explain that `.learning/` belongs to the learner’s repository and should not be deleted during reinstall or troubleshooting. Explain that Overflow can discover another installed skill and offer a confirmation-based handoff with `/handoff <skill|request>`; the host may render that as a skill picker, explicit command, or numbered text.
 
 For comment-driven exercises, show that `CB-Q##` identifies the prompt, `CB-ANSWER-START` / `CB-ANSWER-END` delimit learner work, and `CB-HINT-START` / `CB-HINT-END` delimit optional hints. Tell the learner to keep markers intact so `/hint` and `/assess` can resolve the active question.
 
 ## Safety and accuracy
 
-Do not claim a command created a file, ran a check, or changed progress unless the agent actually observed it. Do not ask the learner to install the package again if the command is already available. Do not reveal canonical solutions merely because the learner asks for help; route them to `/hint` and the progressive help ladder. For cybersecurity work, preserve local, synthetic, authorized, bounded execution and the repository’s safety rules.
+Do not claim a command created a file, ran a check, or changed progress unless the agent actually observed it. Do not ask the learner to install the package again if the command is already available. Do not silently invoke another skill: show why it matches, what it may affect, and ask before handing off. Keep Overflow responsible for `.learning/`, citations, evidence plans, and assessment records. Do not reveal canonical solutions merely because the learner asks for help; route them to `/hint` and the progressive help ladder. For cybersecurity work, preserve local, synthetic, authorized, bounded execution and the repository’s safety rules.

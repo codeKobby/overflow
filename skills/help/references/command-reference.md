@@ -20,7 +20,9 @@ Then choose a target with `/teach`, `/quiz`, or `/exercise`. A typical implement
 /next
 ```
 
-Use `/help <command>` for one command, `/help examples` for common workflows, and `/help state` for the `.learning/` files.
+Use `/help <command>` for one command, `/help examples` for common workflows, `/help state` for the `.learning/` files, and `/help routing` for initialization gates and cross-skill handoffs.
+
+If a learning command is requested before initialization, Overflow checks `.learning/` first and asks whether to initialize, continue statelessly where meaningful, inspect setup, or cancel. It does not fabricate progress or write durable state without confirmation.
 
 ## Command map
 
@@ -38,6 +40,31 @@ Use `/help <command>` for one command, `/help examples` for common workflows, an
 | `/progress` | Recomputes evidence-based progress and shows exposure, retrieval, implementation, transfer, overdue review, and next gaps. | none; optionally a topic or path |
 | `/next` | Recommends the smallest next learning action from current state and evidence gaps. | none; optionally `short`, `review`, or `implementation` |
 | `/learn` | Reviews, searches, corrects, prunes, or exports durable learning memory. | `review`, `search`, `glossary`, `correct`, `prune`, `export` |
+| `/handoff` | Discovers a matching installed skill and asks before triggering it. | skill name, request, `--list` |
+
+## `/handoff`
+
+Use `/handoff` when the request is better handled by another installed skill, such as a code-review, testing, web-development, documentation, or infrastructure skill. Overflow inventories skill metadata, proposes the best match, explains the reason and possible effects, then asks for confirmation. It never silently invokes a specialist.
+
+```text
+/handoff
+/handoff code-review
+/handoff build a React dashboard for this lesson
+/handoff --list
+```
+
+The host may invoke the selected skill directly, open a skill picker, or require the learner to run an explicit command. In every case, Overflow keeps `.learning/`, citations, evidence plans, exercise markers, and assessment records under its control. After the handoff, verify what actually happened before offering `/assess`, `/teach`, `/review`, or `/progress`.
+
+## Readiness and routing
+
+Run the bundled readiness helper before stateful learning commands:
+
+```bash
+python3 <overflow-skill>/scripts/detect_readiness.py . --json
+python3 <overflow-skill>/scripts/discover_skills.py . --include-global --json
+```
+
+The readiness states are `uninitialized`, `draft`, `partial`, `initialized`, and `invalid`. Missing or incomplete state produces a selectable prompt rather than a silent setup or fabricated progress. Read `routing.md` for the full handoff and initialization contract.
 
 ## `/setup-learning`
 

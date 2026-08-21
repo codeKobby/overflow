@@ -1,6 +1,6 @@
 # overflow
 
-`overflow` is an installable Agent Skills suite for learning from almost any local repository or existing codebase. It supports continuous multiple-choice quizzes, flexible day or topic or file targeting, repository-aware teaching, guided exercises, code examination, explanations, review, and Markdown progress tracking. The three zero-to-hero courses are supported examples, not a limitation.
+`overflow` is an installable Agent Skills suite for learning from almost any local repository or existing codebase. It supports continuous multiple-choice quizzes, flexible day or topic or file targeting, repository-aware teaching, guided exercises, code examination, explanations, review, Markdown progress tracking, readiness-aware initialization prompts, and confirmation-based handoffs to other installed skills. The three zero-to-hero courses are supported examples, not a limitation.
 
 ## Install
 
@@ -75,6 +75,7 @@ The continuous quiz itself uses the same interaction model: learners can click a
 | `/progress` | Regenerate the evidence-based progress dashboard. |
 | `/next` | Recommend the smallest next learning action. |
 | `/learn` | Review, search, correct, archive, or export durable learning records and project vocabulary. |
+| `/handoff` | Discover a matching installed skill and ask before triggering it. |
 
 ## Help examples
 
@@ -87,7 +88,17 @@ The continuous quiz itself uses the same interaction model: learners can click a
 /help troubleshooting
 ```
 
-Use `/help` for a concise command map, `/help <command>` for one command, and `/help examples` for complete course and source-project workflows. The help skill explains what each command does, which arguments it accepts, what files it may create, and what command to use next.
+Use `/help` for a concise command map, `/help <command>` for one command, `/help examples` for complete course and source-project workflows, and `/help routing` for initialization and handoff behavior. The help skill explains what each command does, which arguments it accepts, what files it may create, and what command to use next.
+
+Before stateful learning commands, Overflow checks `.learning/`. If the repository is uninitialized or only partially initialized, it asks whether to initialize, continue with a one-off stateless response where meaningful, inspect setup, or cancel. It never fabricates progress or writes durable learner state without confirmation. For requests better suited to another installed skill, Overflow can inspect skill metadata and propose a handoff:
+
+```text
+/handoff
+/handoff code-review
+/handoff build a React dashboard for this lesson
+```
+
+The handoff explains why the skill matches and what may be affected, then asks for confirmation. If the host cannot invoke skills programmatically, it renders the equivalent explicit skill command or numbered choice. Overflow remains responsible for `.learning/`, source citations, evidence plans, exercise markers, and learning assessment.
 
 ## Quiz examples
 
@@ -108,6 +119,17 @@ Use `/help` for a concise command map, `/help <command>` for one command, and `/
 ```
 
 A day quiz defaults to ten questions and a topic quiz to five. Each question has four options, A through D. After the learner answers, the skill explains the result and immediately presents the next question. Sessions are saved after every answer under `.learning/quiz-sessions/` and can be resumed.
+
+## Readiness and routing helpers
+
+The package includes read-only helpers for agents and debugging:
+
+```bash
+python3 skills/overflow/scripts/detect_readiness.py . --json
+python3 skills/overflow/scripts/discover_skills.py . --include-global --json
+```
+
+`detect_readiness.py` reports `uninitialized`, `draft`, `partial`, `initialized`, or `invalid`. `discover_skills.py` reads only standard `SKILL.md` metadata from visible project or global skill roots; it does not invoke skills or modify files.
 
 ## Learning state
 
