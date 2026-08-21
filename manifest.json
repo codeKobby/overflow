@@ -1,6 +1,6 @@
 {
   "name": "code-buddy",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Repository-native learning coach for arbitrary codebases, courses, interactive quizzes, on-demand lessons, assessment, and progress.",
   "skills": [
     "code-buddy",
@@ -12,7 +12,8 @@
     "explain",
     "review",
     "progress",
-    "next"
+    "next",
+    "learn"
   ],
   "agents": [
     "claude-code",

@@ -27,4 +27,4 @@ Ask the learner to attempt the work before showing a solution. Present the exerc
 
 For Python cybersecurity, require local or synthetic targets, explicit authorization, permitted actions, evidence, cleanup, and stop conditions. Do not use real credentials, public targets, private logs, or unauthorized systems. For other repositories, follow the project’s documented conventions and ask before modifying files or accessing external services.
 
-Write an attempt record under `.learning/attempts/` when `--md` is requested. Tell the learner to use `/assess` with the file, diff, output, or explanation when they are ready.
+Write an attempt record under `.learning/attempts/` when `--md` is requested, including links to the source lesson, quiz report, project-map target, files changed, checks actually run, and the next assessment path. Tell the learner to use `/assess` with the file, diff, output, or explanation when they are ready.

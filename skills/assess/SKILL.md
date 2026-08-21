@@ -19,8 +19,8 @@ Assess evidence, not confidence alone. Accept a file path, diff, pasted code, wr
 4. Run documented local checks only when allowed and report exactly what ran.
 5. Separate observations from inferences.
 6. Use the verdict `not-demonstrated`, `emerging`, `reliable`, or `transferable`; when the learner wants to discuss the result, present these interpretations as selectable options before asking for the next decision.
-7. Write `.learning/assessments/YYYY-MM-DD-topic.md` for substantial assessments, or respond inline for brief feedback.
-8. Update progress evidence and present the recommended next action as a selectable question with `Other` when possible.
+7. Write `.learning/assessments/YYYY-MM-DD-topic.md` for substantial assessments, linking the source lesson, attempt, quiz report, project-map target, files inspected, and checks actually run; otherwise respond inline for brief feedback.
+8. Update progress evidence, link the assessment path into the affected topic, and present the recommended next action as a selectable question with `Other` when possible.
 
 ## Rubric
 

@@ -37,6 +37,6 @@ An ambiguous answer is clarification, not a wrong answer. Present session contro
 
 ## Completion
 
-Write a Markdown report with target, score, question count, topic breakdown, missed questions, misconceptions, hints used, and next action. Correct answers without hints are retrieval evidence. Correct answers after hints are weaker evidence. A high quiz score alone must not mark implementation mastery; recommend an exercise, prediction, or assessment when appropriate.
+Write a Markdown report under `.learning/quiz-reports/` with target, score, question count, topic breakdown, missed questions, misconceptions, hints used, source anchors, and next action. Link it to the selected lesson or project-map target and later assessment or learning record by relative path. Correct answers without hints are retrieval evidence. Correct answers after hints are weaker evidence. A high quiz score alone must not mark implementation mastery; recommend an exercise, prediction, or assessment when appropriate.
 
 Use `.learning/progress.json` if present. If it is absent, recommend `/setup-learning` and maintain only the current session until setup is complete.

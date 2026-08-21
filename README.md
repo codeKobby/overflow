@@ -50,6 +50,7 @@ The continuous quiz itself uses the same interaction model: learners can click a
 | `/review` | Practise weak, overdue, or recently corrected topics. |
 | `/progress` | Regenerate the evidence-based progress dashboard. |
 | `/next` | Recommend the smallest next learning action. |
+| `/learn` | Review, search, correct, archive, or export durable learning records and project vocabulary. |
 
 ## Quiz examples
 
@@ -73,18 +74,22 @@ A day quiz defaults to ten questions and a topic quiz to five. Each question has
 
 ## Learning state
 
-The skill stores learner-specific state in the current repository, not in the skill package:
+The skill stores learner-specific state in the current repository, not in the skill package. Setup drafts `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, shows concise summaries, and asks the learner to confirm before writing durable files. Lessons, attempts, assessments, quiz reports, learning records, and progress topics link to one another by relative artifact paths. `/learn` lets the learner review, search, correct, archive, or export this memory; it never silently records every conversation.
 
 ```text
 .learning/
 ├── CONFIG.md
 ├── MISSION.md
+├── PROJECT_MAP.md
+├── PROJECT_GLOSSARY.md
+├── CURRICULUM.md
 ├── PROGRESS.md
 ├── progress.json
 ├── quiz-sessions/
 ├── attempts/
 ├── assessments/
-└── learning-records/
+├── learning-records/
+└── lessons/
 ```
 
 The skill distinguishes exposure, retrieval, implementation, and transfer. A high quiz score is useful retrieval evidence but does not by itself establish coding mastery.

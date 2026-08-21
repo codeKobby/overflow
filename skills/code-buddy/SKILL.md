@@ -1,10 +1,10 @@
 ---
 name: code-buddy
-description: Coach learners through arbitrary local repositories and programming courses with continuous multiple-choice quizzes, day or topic targeting, guided exercises, code assessment, explanations, spaced review, and Markdown progress records. Use when the user asks to learn from a repository, quiz, practise, teach, examine code, review a lesson, or track progress in any codebase.
+description: Coach learners through arbitrary local repositories and programming courses with continuous multiple-choice quizzes, staged onboarding, project maps, glossaries, lightweight curricula, on-demand source-cited lessons, guided exercises, code assessment, explanations, spaced review, durable learning memory, and Markdown progress records. Use when the user asks to learn from a repository, quiz, practise, teach, examine code, review a lesson, manage learning memory, or track progress in any codebase.
 license: MIT
 metadata:
   author: codeKobby
-  version: "0.2.0"
+  version: "0.3.0"
   package: code-buddy
 ---
 
@@ -20,7 +20,7 @@ Use the explicit command when the user names one:
 
 | Command | Action |
 | --- | --- |
-| `/setup-learning` | Classify the repository, interview the learner, create a project map and lightweight curriculum, and initialize `.learning/`. |
+| `/setup-learning` | Classify the repository, interview the learner, draft and confirm a project map, glossary, lightweight curriculum, and `.learning/` state. |
 | `/teach [day|lesson|topic]` | Teach one narrow concept with an example, trace, and task. |
 | `/quiz [day|lesson|topic]` | Run a continuous A–D quiz and continue after every answer. |
 | `/exercise [day|lesson|topic]` | Select or create a concrete learner-owned exercise. |
@@ -29,6 +29,7 @@ Use the explicit command when the user names one:
 | `/review [topic|due]` | Run retrieval practice on weak or due topics. |
 | `/progress` | Recompute and show evidence-based progress. |
 | `/next` | Recommend the smallest next learning action. |
+| `/learn [review|search|glossary|correct|prune|export]` | Review, search, correct, archive, or export durable learning records and project vocabulary. |
 
 If the user asks generally to learn, inspect the state and route to `/next`. If `.learning/CONFIG.md` does not exist, run setup before making progress claims.
 
@@ -36,9 +37,9 @@ If the user asks generally to learn, inspect the state and route to `/next`. If 
 
 Find the Git worktree and inspect README files, documentation, source directories, tests, examples, exercise files, package configuration, build scripts, commit history when useful, and documented checks. Classify the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`. If the repository has a day index or curriculum guide, map and preserve it; otherwise infer a project map and propose a lightweight daily curriculum from headings, filenames, tests, symbols, dependencies, and project milestones. Recognize the three supported course families when their standards exist, but always provide a repository-agnostic fallback for other languages, frameworks, and existing codebases. Do not assume a fixed directory naming scheme.
 
-Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), and [curriculum-design.md](references/curriculum-design.md).
+Interview the learner about goal, experience, known concepts, available time, activity preference, output mode, and commands or files that must not be touched. Draft `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, show concise summaries, and ask for selectable confirmation before writing durable versions. Create `.learning/` lazily with `CONFIG.md`, `MISSION.md`, `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, `CURRICULUM.md`, `progress.json`, `PROGRESS.md`, `quiz-sessions/`, `attempts/`, `assessments/`, `learning-records/`, `lessons/`, and `cache/`. Never overwrite existing learner records without confirmation. Use [repository-detection.md](references/repository-detection.md), [state-schema.md](references/state-schema.md), [curriculum-design.md](references/curriculum-design.md), and [interactive-choices.md](references/interactive-choices.md).
 
-Do not pre-generate every lesson, full walkthrough, solution, or future quiz bank during setup. Setup creates planning metadata; detailed lessons are generated only after the learner selects a target.
+Do not pre-generate every lesson, full walkthrough, solution, or future quiz bank during setup. Setup creates planning metadata only. Link lessons, attempts, assessments, quiz reports, learning records, and progress topics by artifact path; detailed lessons are generated only after the learner selects a target.
 
 ## Generate lessons on demand
 
@@ -64,13 +65,17 @@ Read [quiz-design.md](references/quiz-design.md) for the question contract and s
 
 Teach one small concept using: problem, plain-language mental model, worked example, prediction, trace, limitation, and learner-owned task. Use the repository’s existing lessons, README files, source comments, tests, examples, exercises, and history as the curriculum source. For an existing codebase without lessons, let the learner select a file, symbol, test, feature, or bug and construct a compact learning episode from it. For programming tasks, progress through complete example, trace, meaningful faded example, and independent implementation. Remove scaffolding by concept or subgoal, not arbitrary line deletion.
 
-Use the help ladder: question, reminder, targeted hint, partial scaffold, comparable worked example, then solution review. Give the learner the next useful step instead of immediately replacing their work. Use [teaching-loop.md](references/teaching-loop.md) and [output-modes.md](references/output-modes.md).
+Use the help ladder: question, reminder, targeted hint, partial scaffold, comparable worked example, then solution review. Give the learner the next useful step instead of immediately replacing their work. Consult the project glossary for consistent vocabulary and update it only through learner-approved changes. Read [glossary-design.md](references/glossary-design.md) when extracting or revising terms. Use [teaching-loop.md](references/teaching-loop.md) and [output-modes.md](references/output-modes.md).
 
 ## Assess submitted work
 
 For `/assess`, inspect the learner’s answer, file, diff, test output, pull request, bug fix, or exercise artifact. Use repository-specific standards when present; otherwise derive acceptance criteria from the learner’s stated goal, surrounding code, tests, documentation, and conventions. Report what was observed separately from what is inferred. Assess concept, implementation, reasoning, verification, edge cases, maintainability, integration impact, and limitations; include safety, scope, evidence, and cleanup for cybersecurity work. A passing check is evidence for that check, not proof of overall mastery.
 
 Use the verdicts `not-demonstrated`, `emerging`, `reliable`, and `transferable`. If assessment mode or output mode is not stored, present the choices as selectable questions. Write Markdown for substantial assessments under `.learning/assessments/`; use inline output for brief feedback and `--both` when the learner wants both. See [assessment-rubric.md](references/assessment-rubric.md).
+
+## Manage durable learning memory
+
+For `/learn`, present one selectable operation: review recent records, search by topic/file/symbol/misconception, inspect the project glossary, correct or append a learning record, archive stale records, or export `.learning/LEARNING_SUMMARY.md`. Read existing state before writing. Show proposed changes and ask for confirmation before editing or archiving durable memory. Never silently turn every conversation into memory. Use artifact links instead of copying large code blocks.
 
 ## Update progress and schedule review
 

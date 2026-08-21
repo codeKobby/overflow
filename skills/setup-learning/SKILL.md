@@ -1,15 +1,15 @@
 ---
 name: setup-learning
-description: Initialize code-buddy in any local repository or programming-course codebase by classifying the workspace, interviewing the learner, mapping documentation and source structure, creating a lightweight daily curriculum, and preparing durable .learning state without generating every lesson. Use when starting code-buddy or when the user asks to set up learning progress.
+description: Initialize code-buddy in any local repository or programming-course codebase by classifying the workspace, interviewing the learner, mapping documentation and source structure, drafting a project map, glossary, and lightweight daily curriculum, and asking for confirmation before writing durable .learning state. Use when starting code-buddy or when the user asks to set up learning progress.
 license: MIT
 metadata:
   package: code-buddy
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Setup Learning
 
-Initialize a repository-local learning workspace. Create the map and roadmap first; generate full lessons only when the learner selects a day, topic, file, symbol, test, bug, feature, or milestone. Present every meaningful setup choice as a selectable question when the agent supports interactive options; otherwise show numbered or lettered options and accept text equivalents. Read [interactive-choices.md](references/interactive-choices.md).
+Initialize a repository-local learning workspace. Create the map, glossary, and roadmap first; generate full lessons only when the learner selects a day, topic, file, symbol, test, bug, feature, or milestone. Present every meaningful choice as a selectable question when the agent supports interactive options; otherwise show numbered or lettered options and accept text equivalents. Read [interactive-choices.md](references/interactive-choices.md).
 
 ## Classify the repository
 
@@ -34,17 +34,39 @@ Ask progressively rather than presenting one large questionnaire. Render each it
 
 Accept `unknown`, record assumptions, and let the learner revise the answers later. Do not ask again when a stored answer is still valid.
 
-## Build the lightweight plan
+## Draft the project artifacts
 
 For a structured course, import and map the existing sequence instead of rewriting it. For a source project, inspect dependency order, entry points, concepts, symbols, tests, milestones, and likely prerequisites, then propose a 7-, 14-, 21-, or 30-day curriculum based on the learner’s available time and goal. For a hybrid project, connect the course sequence to project milestones. For a sparse repository, create only a provisional map and ask for a starting path.
 
-Create these planning artifacts:
+Draft these files before writing their durable versions:
+
+```text
+.learning/PROJECT_MAP.draft.md
+.learning/PROJECT_GLOSSARY.draft.md
+.learning/CURRICULUM.draft.md
+```
+
+`PROJECT_MAP.draft.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `PROJECT_GLOSSARY.draft.md` records project terms, abbreviations, symbols, aliases, plain-language definitions, and source anchors. `CURRICULUM.draft.md` records daily outcomes, concepts, source anchors, prerequisites, activities, evidence, verification, and review targets.
+
+Show a compact summary of each draft. Then ask a selectable confirmation question:
+
+- Accept all drafts and create the learning workspace (recommended).
+- Revise the project map.
+- Revise the glossary.
+- Revise the curriculum.
+
+If the agent limits a question to four options, ask revision questions sequentially. Do not write `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, or `CURRICULUM.md` until the learner accepts the drafts. If state already exists, show the proposed diff and ask before reconciling it.
+
+## Create durable state after confirmation
+
+After acceptance, rename or rewrite the approved drafts as:
 
 ```text
 .learning/
 ├── CONFIG.md
 ├── MISSION.md
 ├── PROJECT_MAP.md
+├── PROJECT_GLOSSARY.md
 ├── CURRICULUM.md
 ├── PROGRESS.md
 ├── progress.json
@@ -56,11 +78,9 @@ Create these planning artifacts:
 └── cache/
 ```
 
-`PROJECT_MAP.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `CURRICULUM.md` records daily outcomes, concepts, source anchors, prerequisites, activities, evidence, verification, and review targets.
+Initialize `progress.json` with repository type, current target, empty topics, and version 3. Do not claim mastery from setup. The plan is metadata only: do not generate all future lessons, full walkthroughs, complete solutions, or large quiz banks.
 
-Do **not** generate all future lessons, full code walkthroughs, complete solutions, or large quiz banks during setup. The initializer creates planning metadata only. Lesson generation is on demand.
-
-## Configure output
+## Configure output and next steps
 
 Store the learner’s default in `.learning/CONFIG.md`. Present output mode as a selectable question. Use Markdown by default because it is durable, searchable, citable, and reviewable. Support overrides such as:
 
@@ -70,10 +90,10 @@ Store the learner’s default in `.learning/CONFIG.md`. Present output mode as a
 /teach day 03 --both
 ```
 
-End setup by showing `/teach`, `/quiz`, `/exercise`, `/assess`, `/progress`, and `/next` examples for the detected workspace.
+End setup by showing `/teach`, `/quiz`, `/exercise`, `/assess`, `/learn`, `/progress`, and `/next` examples for the detected workspace. Explain that `/learn` reviews or corrects durable learning records and glossary terms.
 
 ## Safety and boundaries
 
 For Python cybersecurity, read and record the repository’s safety and lab rules before enabling command execution. Default to local, synthetic, bounded practice and ask before running checks.
 
-For any repository, preserve existing files and learner records. Ask before installing dependencies, modifying source code, running commands with side effects, accessing services, or reading sensitive files. Never copy secrets, tokens, private keys, or sensitive personal data into generated lessons.
+For any repository, preserve existing files and learner records. Ask before installing dependencies, modifying source code, running commands with side effects, accessing services, or reading sensitive files. Never copy secrets, tokens, private keys, or sensitive personal data into generated lessons or glossary entries.
