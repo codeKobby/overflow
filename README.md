@@ -31,6 +31,16 @@ npx skills add codeKobby/code-buddy --all --global
 
 The installer can use symlinks for a shared source of truth or copies when symlinks are unavailable. Update later with `npx skills update`.
 
+## skills.sh directory
+
+The package is listed in the [`skills.sh` directory](https://skills.sh/codekobby/code-buddy). There is no separate publishing command: the current skills ecosystem indexes public Git repositories through the normal `npx skills add` installation flow and its anonymous discovery telemetry. Users can also search for it with:
+
+```bash
+npx skills find code-buddy
+```
+
+For the official publishing and package-format guidance, see the [Vercel Agent Skills guide](https://vercel.com/kb/guide/agent-skills-creating-installing-and-sharing-reusable-agent-context). Review the repository and scripts before installation, as recommended for all agent skills.
+
 ## Agent compatibility
 
 Compatibility is a first-class part of the package, not just a list of names. The complete matrix is maintained in [`compatibility/hosts.json`](compatibility/hosts.json), with user-facing guidance in [`compatibility/README.md`](compatibility/README.md). Tier A hosts have verified standard discovery contracts; Tier B hosts are installer-routed and require host-specific placement; Tier C hosts are bridge integrations. The repository also includes an optional Claude Code plugin manifest at [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) and Codex picker metadata beside every skill.

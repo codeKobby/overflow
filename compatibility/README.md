@@ -19,7 +19,7 @@ npx skills add codeKobby/code-buddy --all \
   -a antigravity
 ```
 
-The package also includes an optional Claude Code plugin manifest at `.claude-plugin/plugin.json`. Use one distribution route per host where possible; do not install both a plugin copy and a skills-CLI copy of the same command because duplicate skill names can be confusing.
+The package is also listed at [`skills.sh/codekobby/code-buddy`](https://skills.sh/codekobby/code-buddy). Search for it with `npx skills find code-buddy`; there is no separate registry-upload command. Use one distribution route per host where possible; do not install both a plugin copy and a skills-CLI copy of the same command because duplicate skill names can be confusing. The package also includes an optional Claude Code plugin manifest at `.claude-plugin/plugin.json`.
 
 ## Tier A: native portable support
 

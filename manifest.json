@@ -38,7 +38,13 @@
       "B": "installer-routed",
       "C": "bridge"
     },
-    "universal_install": "npx skills add codeKobby/code-buddy --all"
+    "universal_install": "npx skills add codeKobby/code-buddy --all",
+    "directory": {
+      "name": "skills.sh",
+      "url": "https://skills.sh/codekobby/code-buddy",
+      "search": "npx skills find code-buddy",
+      "publishing": "automatic-via-public-repository-installation"
+    }
   },
   "state_directory": ".learning",
   "license": "MIT"
