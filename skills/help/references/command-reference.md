@@ -139,6 +139,8 @@ Use `/assess` after an attempt. Overflow resolves the active question, reads the
 
 The assessment separates correctness, verification, reasoning, edge cases, maintainability, complexity, modernity, transfer, and safety. A correct but long approach remains correct; overflow explains a clearer or more modern alternative with trade-offs instead of treating it as a failed answer.
 
+If the repository has a native `Prove it`, `Finish line`, self-assessment, or reflection section, `/assess` uses it after implementation checks: it asks one direct-answer question at a time in chat, then asks only unresolved completion gates. If the repository has no equivalent, Overflow labels the source-grounded questions as **inferred** and cites the files, tests, or milestone used to create them. A passing test does not silently close unanswered proof questions.
+
 ## `/explain`
 
 Use `/explain` for a focused explanation of a concept, error, code block, output, or assessment note. It should cite the relevant repository source and distinguish observed behavior from inference.
@@ -165,7 +167,7 @@ Use `/review` when a topic is weak, overdue, or recently corrected. It should us
 
 ## `/progress`
 
-Use `/progress` to regenerate or inspect `PROGRESS.md` and `progress.json`. It reports evidence separately for exposure, retrieval, implementation, and transfer, and links to lessons, quiz reports, attempts, assessments, and learning records.
+Use `/progress` to regenerate or inspect `PROGRESS.md` and `progress.json`. It reports evidence separately for exposure, retrieval, implementation, reasoning, verification, transfer, and safety, and links to lessons, quiz reports, attempts, assessments, and learning records. When available, it also shows native versus inferred section counts, proof questions due, and open Finish line gates.
 
 ```text
 /progress
@@ -223,6 +225,7 @@ Overflow keeps learner-specific state in the current repository:
 ├── learning-records/
 ├── lessons/
 └── cache/
+    └── evidence-map.json
 ```
 
 Existing `.learning/` state is reused when the package is renamed or reinstalled. Do not delete it during troubleshooting.
@@ -231,4 +234,4 @@ Existing `.learning/` state is reused when the package is renamed or reinstalled
 
 If a command is not available, verify the package was installed with `npx skills add codeKobby/overflow --all` and that the current host’s skill directory is configured. If the repository has not been initialized, run `/setup-learning`. If `/hint` or `/assess` cannot resolve a question, run `/exercise` or provide an explicit `CB-Q##` ID. If several exercises are active, choose the exercise and question shown by the agent instead of allowing a silent guess.
 
-If citations are stale, regenerate the lesson or assessment from the current source file. If checks fail, preserve the output, inspect the first relevant error, and ask `/explain` about it. Do not run undocumented destructive commands, expose secrets, or open canonical solutions merely to construct a hint.
+If citations are stale, regenerate the lesson or assessment from the current source file. If checks fail, preserve the output, inspect the first relevant error, and ask `/explain` about it. If the native/inferred section map looks wrong, rerun `python3 <overflow-skill>/scripts/discover_evidence.py <path> --repository-type <type>` and ask setup to revise the evidence plan. Do not run undocumented destructive commands, expose secrets, or open canonical solutions merely to construct a hint.

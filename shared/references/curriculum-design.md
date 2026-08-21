@@ -27,7 +27,7 @@ Allow `unknown` and record assumptions in `.learning/CONFIG.md`.
 
 ## Create the plan, not every lesson
 
-For a source project, draft `.learning/PROJECT_MAP.draft.md`, `.learning/PROJECT_GLOSSARY.draft.md`, and `.learning/CURRICULUM.draft.md`. Show concise summaries and ask for selectable confirmation before writing the durable files. Each roadmap day should contain an outcome, concepts, source anchors, prerequisites, an activity, evidence, verification, and a review target.
+For a source project, draft `.learning/PROJECT_MAP.draft.md`, `.learning/PROJECT_GLOSSARY.draft.md`, and `.learning/CURRICULUM.draft.md`. Show concise summaries and ask for selectable confirmation before writing the durable files. Each roadmap day should contain an outcome, concepts, source anchors, prerequisites, an activity, a native-or-inferred evidence plan, verification, and a review target. If no native `Practice`, `Prove it`, `Finish line`, or self-assessment exists, label the proposed source-project prompts as inferred and cite the source files, tests, or milestones that motivated them.
  Keep it compact and use 7-, 14-, 21-, or 30-day plans according to learner time and project size.
 
 Do not generate full lessons, large code walkthroughs, complete solutions, or future quiz banks during setup. Lesson generation is on demand. Maintain a glossary of project terms and link lessons, attempts, assessments, quiz reports, and learning records by artifact path.
@@ -37,12 +37,12 @@ Do not generate full lessons, large code walkthroughs, complete solutions, or fu
 When the learner selects a day, topic, file, symbol, test, bug, feature, or milestone:
 
 1. Load the selected roadmap entry or project target.
-2. Read only relevant source, tests, and documentation.
+2. Read only relevant source, tests, documentation, and the discovered evidence map.
 3. State the outcome and source anchors.
 4. Produce Markdown by default, or honor `--inline`/`--both`.
 5. Include short, real source excerpts with repository-relative paths and line ranges.
 6. Ask for prediction before explaining where useful.
-7. Give an exercise, transfer task, and evidence requirement.
+7. Give an exercise, transfer task, and evidence plan. Preserve native `Prove it`, `Finish line`, verification, reflection, hints, solutions, and safety order; label inferred steps for source projects.
 8. Save Markdown under `.learning/lessons/`.
 9. Treat generation as exposure; update mastery only after learner evidence.
 

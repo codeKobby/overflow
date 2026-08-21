@@ -1,7 +1,7 @@
 {
   "name": "overflow",
-  "version": "0.7.0",
-  "description": "Repository-native learning coach for arbitrary codebases and courses with command help, continuous quizzes, comment-driven exercises, active hints, executable assessment, on-demand lessons, and progress.",
+  "version": "0.8.0",
+  "description": "Repository-adaptive learning coach for arbitrary codebases and courses with command help, native or inferred Practice/Prove it/Finish line evidence, continuous quizzes, comment-driven exercises, active hints, executable assessment, on-demand lessons, and progress.",
   "skills": [
     "overflow",
     "help",

@@ -7,6 +7,8 @@ import json
 import re
 from pathlib import Path
 
+from discover_evidence import discover
+
 EXCLUDED = {".git", "node_modules", ".venv", "venv", "__pycache__", ".learning", "dist", "build"}
 COURSE_SIGNALS = {
     "DAY_INDEX.md", "CURRICULUM_GUIDE.md", "LESSON_TEMPLATE.md", "LESSON_STANDARD.md",
@@ -107,13 +109,16 @@ def main() -> int:
     paths = list(files_under(root))
     names = {path.name for path in paths}
     lessons = lesson_candidates(root)
+    repository_type = classify(root, names, paths, lessons)
+    evidence = discover(root, repository_type)
     result = {
         "root": str(root),
-        "repository_type": classify(root, names, paths, lessons),
+        "repository_type": repository_type,
         "families": detect_family(names),
         "signals": sorted(COURSE_SIGNALS.intersection(names)),
         "lessons": lessons,
         "inventory": project_inventory(root, paths),
+        "evidence": evidence,
     }
     if args.output == "json":
         print(json.dumps(result, indent=2))
@@ -124,6 +129,8 @@ def main() -> int:
         print(f"Lesson candidates: {len(result['lessons'])}")
         print(f"Documentation files: {len(result['inventory']['documentation'])}")
         print(f"Test files: {len(result['inventory']['tests'])}")
+        print(f"Native evidence sections: {len(result['evidence']['native_sections'])}")
+        print(f"Inferred evidence steps: {len(result['evidence']['inferred_evidence'])}")
         for item in result["lessons"][:20]:
             print(f"  Day {item['day']}: {item['path']}")
     return 0

@@ -12,6 +12,22 @@ Assess evidence, not confidence alone. Use one of four verdicts: `not-demonstrat
 | Maintainability | Is the code readable, appropriately structured, and consistent with the course? |
 | Transfer | Can the learner apply the idea to a changed input or novel task? |
 | Safety | For security work, are authorization, scope, evidence, cleanup, and limits explicit? |
+| Proof response | Can the learner answer the repository’s native or inferred direct question in their own words and connect it to source evidence? |
+| Completion gate | Has the learner demonstrated the native or inferred finish-line condition, including reproducibility, repair, limitation, or transfer where required? |
+
+## Adaptive sequence
+
+When an evidence plan exists, assess in this order unless the repository explicitly says otherwise:
+
+1. implementation and acceptance criteria;
+2. documented or approved verification;
+3. one native `Prove it` question or clearly labelled inferred proof question at a time;
+4. unresolved finish-line and self-assessment gates;
+5. transfer or review recommendation.
+
+Direct-answer questions are not graded by exact wording. Look for conceptual accuracy, source grounding, connection to the implementation or observed output, a meaningful boundary, and honest limitations. Record each response separately from code execution. A correct implementation with unanswered proof questions is verified for implementation but not yet transferable or mastered.
+
+Every evidence item must include `source_kind: native` or `source_kind: inferred`, its source path and line range when available, the prompt, learner response or check output, verdict, and remaining gap.
 
 ## Report format
 

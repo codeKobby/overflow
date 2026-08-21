@@ -27,6 +27,28 @@ def main() -> int:
             if not (state / dirname).is_dir():
                 warnings.append(f"missing directory {dirname}")
         progress_path = state / "progress.json"
+        evidence_map = state / "cache" / "evidence-map.json"
+        if evidence_map.exists():
+            try:
+                evidence_data = json.loads(evidence_map.read_text(encoding="utf-8"))
+                if not isinstance(evidence_data, dict):
+                    errors.append(".learning/cache/evidence-map.json must contain an object")
+                else:
+                    for key in ["native_sections", "inferred_evidence"]:
+                        if key in evidence_data and not isinstance(evidence_data[key], list):
+                            errors.append(f"evidence-map.json {key} must be a list")
+                    for section in evidence_data.get("native_sections", []):
+                        if not isinstance(section, dict):
+                            errors.append("evidence-map.json native section must be an object")
+                        elif section.get("source_kind") not in {None, "native"}:
+                            errors.append("evidence-map.json native section has invalid source_kind")
+                    for item in evidence_data.get("inferred_evidence", []):
+                        if not isinstance(item, dict):
+                            errors.append("evidence-map.json inferred item must be an object")
+                        elif item.get("source_kind") not in {None, "inferred"}:
+                            errors.append("evidence-map.json inferred item has invalid source_kind")
+            except json.JSONDecodeError as exc:
+                errors.append(f"invalid evidence-map.json: {exc}")
         if progress_path.exists():
             try:
                 data = json.loads(progress_path.read_text(encoding="utf-8"))
@@ -66,6 +88,20 @@ def main() -> int:
             active = data.get("active_question")
             if active is not None and active not in question_ids:
                 errors.append(f"{manifest}: active_question does not match a question")
+            evidence_plan = data.get("evidence_plan")
+            if evidence_plan is not None:
+                if not isinstance(evidence_plan, dict):
+                    errors.append(f"{manifest}: evidence_plan must be an object")
+                else:
+                    for key in ["native", "inferred", "proof_questions", "finish_gates"]:
+                        if key in evidence_plan and not isinstance(evidence_plan[key], list):
+                            errors.append(f"{manifest}: evidence_plan {key} must be a list")
+                    for item in evidence_plan.get("native", []) + evidence_plan.get("inferred", []):
+                        if not isinstance(item, dict):
+                            errors.append(f"{manifest}: evidence_plan section must be an object")
+                    for response in evidence_plan.get("proof_responses", []):
+                        if not isinstance(response, dict):
+                            errors.append(f"{manifest}: proof response must be an object")
             allowed_statuses = {"not-started", "scaffolded", "in-progress", "hinted", "submitted", "verified", "needs-revision", "mastered"}
             for item in questions:
                 if not isinstance(item, dict):

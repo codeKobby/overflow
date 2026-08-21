@@ -7,7 +7,8 @@ Use this procedure before teaching, quizzing, assessing, or reporting progress.
 1. Identify the Git worktree root.
 2. Search for README files, documentation, source directories, tests, examples, issue descriptions, package manifests, build scripts, day indexes, curriculum guides, lesson standards, exercises, hints, solutions, practice directories, starter files, self-check lists, and verification commands.
 3. Search `.learning/exercises/*/manifest.json` for an existing active exercise and record its `exercise_id`, `active_question`, source hash, and status before creating another scaffold.
-4. Record only relevant paths and small metadata in `.learning/cache/course-map.json`; do not copy the whole repository into context.
+4. Run `scripts/discover_evidence.py` on the selected lesson or project slice. Record native section roles, source paths, headings, line ranges, links, source hashes, confidence, and inferred evidence steps in `.learning/cache/evidence-map.json` after learner confirmation.
+5. Record only relevant paths and small metadata in `.learning/cache/course-map.json`; do not copy the whole repository into context.
 
 ## Classify the workspace
 
@@ -27,7 +28,7 @@ Signals include a course sequence plus an application or capstone. Keep the cour
 
 Signals include an unclear entry point, little documentation, missing tests, or an incomplete project. Ask the learner for a goal and starting path; mark assumptions and unknowns.
 
-Always show the evidence used for classification and allow correction.
+Always show the evidence used for classification and allow correction. Distinguish `native` sections found in the repository from `inferred` evidence steps proposed for a source project. Never claim that a repository contains a `Prove it` or `Finish line` section when discovery did not find one.
 
 ## Recognize known repositories
 

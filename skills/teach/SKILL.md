@@ -14,14 +14,15 @@ Teach one small concept tied to the repository’s curriculum and the learner’
 ## Sequence
 
 1. Resolve the requested day, lesson, topic, file, symbol, test, bug, or current target.
-2. Read prerequisites, outcomes, runnable examples, traces, common mistakes, practice, references, nearby code, tests, and project conventions.
+2. Read prerequisites, outcomes, runnable examples, traces, common mistakes, practice, references, nearby code, tests, project conventions, and the selected native-or-inferred evidence map. Detect headings or linked artifacts such as Practice, Prove it, Finish line, self-assessment, verification, hints, solutions, and safety/scope without requiring exact filenames.
 3. Ask one retrieval or prediction question before explaining when appropriate, rendering answer choices interactively when supported.
 4. Explain the problem first, then give a plain-language mental model.
 5. Show a small runnable worked example and expected behavior.
 6. Ask the learner to trace output, state changes, control flow, or data shape.
 7. Give a meaningful faded example with a concept-level blank.
 8. Assign a small independent task with an acceptance condition.
-9. Ask for an edge case or limitation and record evidence after the learner responds.
+9. Show an `Evidence plan`. After implementation or the learner’s attempt, trigger the repository’s native `Prove it` questions one at a time in chat, then ask unresolved Finish line or self-assessment questions. If no native sections exist, use clearly labelled inferred questions based on source files, tests, and the learner’s stated goal.
+10. Ask for an edge case or limitation and record evidence after the learner responds.
 
 ## Help ladder
 
@@ -30,4 +31,4 @@ Use the lowest level that unblocks learning: question, reminder, targeted hint, 
 
 For JavaScript/TypeScript, preserve the same runtime idea across both languages and distinguish compiler feedback from runtime behavior. For React/Next.js, distinguish JavaScript, React, and Next.js behavior. For cybersecurity, establish authorization, scope, evidence, cleanup, and stop conditions before technical steps. For any other codebase, use its own documentation, tests, conventions, and learner-stated goal as the teaching source.
 
-Write a Markdown lesson note under `.learning/lessons/` when the user requests `--md`; otherwise keep the lesson inline.
+Write a Markdown lesson note under `.learning/lessons/` when the user requests `--md`; otherwise keep the lesson inline. Include source-relative evidence anchors and distinguish native from inferred proof or completion prompts.

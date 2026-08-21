@@ -14,11 +14,12 @@ Initialize a repository-local learning workspace. Create the map, glossary, and 
 ## Classify the repository
 
 1. Identify the Git worktree root.
-2. Inspect README files, documentation, source directories, tests, examples, issue descriptions, package configuration, build scripts, curriculum files, lesson standards, exercise files, and documented checks.
-3. Classify the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`.
-4. Show the evidence used for classification and ask the learner to select the correct classification or choose `Other/Not sure`.
+2. Inspect README files, documentation, source directories, tests, examples, issue descriptions, package configuration, build scripts, curriculum files, lesson standards, exercise files, hints, solutions, self-checks, `Prove it`, `Finish line`, reflection, verification, and documented checks.
+3. Run the evidence-section detector on the selected course or source-project slice and classify each match as native or inferred.
+4. Classify the workspace as `structured-course`, `source-project`, `hybrid`, or `sparse`.
+5. Show the evidence used for classification and ask the learner to select the correct classification or choose `Other/Not sure`.
 
-A structured course has an ordered day index, lessons, exercises, hints, solutions, or standards. A source project has source code, tests, documentation, manifests, build scripts, issues, or examples without a formal course sequence. A hybrid has both. A sparse repository has an unclear entry point or insufficient documentation.
+A structured course has an ordered day index, lessons, exercises, hints, solutions, standards, or native evidence sections such as Practice, Prove it, Finish line, or self-assessment. A source project has source code, tests, documentation, manifests, build scripts, issues, or examples without a formal course sequence; propose clearly labelled inferred proof and completion evidence from those artifacts. A hybrid has both. A sparse repository has an unclear entry point or insufficient documentation.
 
 ## Interview the learner
 
@@ -46,7 +47,7 @@ Draft these files before writing their durable versions:
 .learning/CURRICULUM.draft.md
 ```
 
-`PROJECT_MAP.draft.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `PROJECT_GLOSSARY.draft.md` records project terms, abbreviations, symbols, aliases, plain-language definitions, and source anchors. `CURRICULUM.draft.md` records daily outcomes, concepts, source anchors, prerequisites, activities, evidence, verification, and review targets.
+`PROJECT_MAP.draft.md` records repository structure, entry points, technologies, important symbols, tests, commands, risks, and unknowns. `PROJECT_GLOSSARY.draft.md` records project terms, abbreviations, symbols, aliases, plain-language definitions, and source anchors. `CURRICULUM.draft.md` records daily outcomes, concepts, source anchors, prerequisites, activities, a native-or-inferred evidence plan, verification, proof questions, finish-line gates, and review targets.
 
 Show a compact summary of each draft. Then ask a selectable confirmation question:
 
@@ -76,9 +77,10 @@ After acceptance, rename or rewrite the approved drafts as:
 ├── learning-records/
 ├── lessons/
 └── cache/
+    └── evidence-map.json
 ```
 
-Initialize `progress.json` with repository type, current target, empty topics, and version 3. Do not claim mastery from setup. The plan is metadata only: do not generate all future lessons, full walkthroughs, complete solutions, or large quiz banks.
+Initialize `progress.json` with repository type, current target, empty topics, and version 3. After learner confirmation, cache the compact native/inferred evidence inventory at `.learning/cache/evidence-map.json`. Do not claim mastery from setup. The plan is metadata only: do not generate all future lessons, full walkthroughs, complete solutions, or large quiz banks.
 
 ## Configure output and next steps
 
@@ -90,7 +92,7 @@ Store the learner’s default in `.learning/CONFIG.md`. Present output mode as a
 /teach day 03 --both
 ```
 
-End setup by showing `/teach`, `/quiz`, `/exercise`, `/assess`, `/learn`, `/progress`, and `/next` examples for the detected workspace. Explain that `/learn` reviews or corrects durable learning records and glossary terms.
+End setup by showing `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/learn`, `/progress`, and `/next` examples for the detected workspace. Explain that `/learn` reviews or corrects durable learning records and glossary terms, and that `/assess` can trigger native or inferred proof questions after implementation checks.
 
 ## Safety and boundaries
 

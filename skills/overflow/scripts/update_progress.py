@@ -25,6 +25,19 @@ def main() -> int:
         progress = {"version": 1, "course": "unknown", "current_lesson": None, "topics": {}}
         progress_path.write_text(json.dumps(progress, indent=2) + "\n", encoding="utf-8")
     topics = progress.get("topics", {}) if isinstance(progress, dict) else {}
+    evidence = progress.get("evidence", {}) if isinstance(progress, dict) and isinstance(progress.get("evidence"), dict) else {}
+    evidence_map_path = state / "cache" / "evidence-map.json"
+    native_count = inferred_count = 0
+    if evidence_map_path.exists():
+        try:
+            evidence_map = json.loads(evidence_map_path.read_text(encoding="utf-8"))
+            if isinstance(evidence_map, dict):
+                native_count = len(evidence_map.get("native_sections", []))
+                inferred_count = len(evidence_map.get("inferred_evidence", []))
+        except json.JSONDecodeError:
+            pass
+    unresolved_proof = len(evidence.get("proof_questions_due", [])) if isinstance(evidence.get("proof_questions_due", []), list) else 0
+    unresolved_finish = len(evidence.get("finish_gates_open", [])) if isinstance(evidence.get("finish_gates_open", []), list) else 0
     rows = []
     for name, item in sorted(topics.items()):
         if not isinstance(item, dict):
@@ -47,6 +60,15 @@ def main() -> int:
         "| Topic | Status | Confidence | Next review |",
         "| --- | --- | ---: | --- |",
         *rows,
+        "",
+        "## Adaptive evidence",
+        "",
+        f"- Native repository evidence sections discovered: {native_count}",
+        f"- Inferred source-project evidence steps: {inferred_count}",
+        f"- Proof questions due: {unresolved_proof}",
+        f"- Finish-line gates open: {unresolved_finish}",
+        "",
+        "Use `/assess` to run approved implementation checks, then answer due proof questions and finish-line gates.",
         "",
         "## Interpretation",
         "",

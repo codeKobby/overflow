@@ -15,8 +15,9 @@ Assess the learner’s actual evidence, not confidence or similarity to a canoni
 
 1. Locate `.learning/exercises/*/manifest.json`. If there is no active manifest, ask the learner to run `/exercise` first.
 2. Resolve an omitted question from the manifest’s `active_question`. If multiple exercises are active, present them as selectable choices or numbered options. Accept explicit IDs such as `CB-Q03` and normalise `CB-Q3` to the manifest ID.
-3. Confirm that the marker exists and is unique. Read the linked prompt, source anchor, relevant lesson section, starter, acceptance criteria, approved checks, hint history, target files, and answer region.
+3. Confirm that the marker exists and is unique. Read the linked prompt, source anchor, relevant lesson section, starter, acceptance criteria, approved checks, hint history, target files, answer region, and the selected native-or-inferred evidence plan. Detect linked `Practice`, `Prove it`, `Finish line`, self-assessment, verification, hints, solutions, and safety/scope artifacts without assuming fixed filenames.
 4. Inspect the learner’s diff and the smallest necessary supporting files. Do not open or reveal a solution file unless the learner explicitly requests a solution review.
+5. After implementation and approved checks, ask one due native `Prove it` question or clearly labelled inferred proof question in chat. Then ask unresolved Finish line or self-assessment gates. Do not ask every question after every small attempt; use the repository’s order and the learner’s current evidence gaps.
 
 ## Verification permission
 
@@ -41,6 +42,8 @@ For security work, require local or synthetic targets, explicit authorization, b
 | Modernity | Does it use current idiomatic APIs for the repository’s language and toolchain? |
 | Transfer | Can the learner adapt it to a changed input or nearby task? |
 | Safety | Are security boundaries and evidence obligations satisfied? |
+| Proof response | Can the learner answer the native or inferred direct question in their own words and connect it to source evidence? |
+| Completion gate | Has the learner met the native or inferred Finish line, including reproducibility, repair, limitation, or transfer where required? |
 
 A correct but long implementation is still correct. Report `correctness: pass` when acceptance is met, then give an optional shorter, clearer, or more modern alternative with trade-offs. Do not call a solution wrong only because another implementation is shorter. Do not require a modern API if the exercise intentionally teaches an older API or if the trade-off is not favorable.
 
@@ -73,7 +76,7 @@ For substantial work, write `.learning/assessments/YYYY-MM-DD-<exercise-id>-<que
 ## Next action
 ```
 
-Record exact files, source-anchor freshness, hints used, permission, checks actually run, output excerpts, uncertainty, and the learner’s explanation. Update the question status and `active_question` only after recording the result. Link the report from the attempt record, affected topic, `progress.json`, and `PROGRESS.md` when those files exist.
+Record exact files, source-anchor freshness, hints used, permission, checks actually run, output excerpts, uncertainty, the learner’s explanation, proof responses, source provenance (`native` or `inferred`), and unresolved completion gates. Update the question status and `active_question` only after recording the result. Link the report from the attempt record, affected topic, `progress.json`, and `PROGRESS.md` when those files exist.
 
 Use `not-demonstrated`, `emerging`, `reliable`, or `transferable` for the overall learning verdict. `mastered` requires explanation and transfer evidence; a green test alone proves only the tested condition.
 

@@ -111,7 +111,7 @@ A day quiz defaults to ten questions and a topic quiz to five. Each question has
 
 ## Learning state
 
-The skill stores learner-specific state in the current repository, not in the skill package. Setup drafts `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, shows concise summaries, and asks the learner to confirm before writing durable files. Lessons, attempts, assessments, quiz reports, learning records, and progress topics link to one another by relative artifact paths. `/learn` lets the learner review, search, correct, archive, or export this memory; it never silently records every conversation.
+The skill stores learner-specific state in the current repository, not in the skill package. Setup drafts `PROJECT_MAP.md`, `PROJECT_GLOSSARY.md`, and `CURRICULUM.md`, shows concise summaries, and asks the learner to confirm before writing durable files. Lessons, attempts, assessments, quiz reports, learning records, and progress topics link to one another by relative artifact paths. `/learn` lets the learner review, search, correct, archive, or export this memory; it never silently records every conversation. Confirmed setup may also cache `.learning/cache/evidence-map.json` with native and inferred learning sections.
 
 ```text
 .learning/
@@ -148,6 +148,26 @@ The manifest remembers the active question, so the learner can simply ask `/hint
 
 `/assess` can inspect the changed region, ask permission to activate a commented draft or use a temporary copy, run documented checks, and record the real evidence. It reports correctness separately from reasoning, verification, edge cases, maintainability, complexity, and modernity. A solution that is correct but longer than necessary is not failed; it receives an explanation of a clearer or more idiomatic alternative and the trade-offs involved.
 
+## Repository-adaptive proof and completion
+
+Overflow analyzes the selected course or source-project slice before deciding what to do. It recognizes native sections by heading or linked artifact, including `Practice`, `Prove it`, `Finish line`, `Self-assessment`, `Reflection`, `Verification`, `Hints`, `Solutions`, and `Safety`—without requiring one fixed filename. The original section order, question wording, source path, line range, links, and source hash are preserved.
+
+For a course with a `Prove it` section, Overflow assesses the learner’s implementation first, runs only approved checks, and then asks the direct-answer questions one at a time in chat. It evaluates the explanation against the source concept, observed output, implementation decisions, boundary cases, and limitations rather than exact wording. It then asks only the unresolved `Finish line` or self-assessment gates. A passing test proves the tested condition; unanswered proof questions remain visible as a reasoning gap.
+
+For an arbitrary source project without these native sections, Overflow creates a clearly labelled **inferred** evidence plan from the selected source files, nearby tests, documentation, and learner goal. It can propose a small implementation task, a source-grounded “explain this flow” question, a documented verification command, and a normal/boundary/limitation finish-line prompt. It never claims that an inferred section came from the repository, and setup asks for confirmation before storing the plan.
+
+This makes the learning loop dynamic:
+
+```text
+/setup-learning
+/teach day 01
+/exercise day 01
+/hint
+/assess        # implementation checks first, then due proof questions
+/progress      # shows evidence gaps and open finish-line gates
+/next
+```
+
 ## Compatibility with arbitrary codebases
 
 The suite first reads the current repository’s own README files, documentation, source tree, tests, examples, issue descriptions, package configuration, and conventions. If it finds a day index or curriculum guide, it supports natural day and lesson commands. If it finds no formal curriculum, learners can target a file, symbol, function, test, feature, bug, pull request, or project milestone directly.
@@ -166,7 +186,7 @@ The suite recognizes the user’s JavaScript/TypeScript, Python cybersecurity, a
 
 ## Initialization and on-demand lessons
 
-`/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones.
+`/setup-learning` first classifies the workspace as a structured course, source project, hybrid, or sparse repository. It then asks the learner selectable questions about goals, experience, known concepts, available time, preferred activities, output mode, and execution boundaries. For a source project, it creates `.learning/PROJECT_MAP.md` and `.learning/CURRICULUM.md`: a compact daily roadmap derived from the project’s dependencies, technologies, source structure, tests, and milestones. Each selected target receives an inferred evidence plan when the project has no native course sections.
 
 It does **not** generate every future lesson. When the learner selects a day, topic, file, function, component, test, bug, or feature, overflow produces the detailed lesson on demand. Markdown is recommended because the lesson can be revisited and assessed later:
 
@@ -184,6 +204,7 @@ From this distribution directory:
 
 ```bash
 python3 shared/scripts/detect_course.py /path/to/course
+python3 shared/scripts/discover_evidence.py /path/to/course --repository-type structured-course
 python3 shared/scripts/detect_hosts.py /path/to/course
 python3 shared/scripts/normalize_target.py day one
 python3 skills/exercise/scripts/parse_exercise_markers.py /path/to/course
