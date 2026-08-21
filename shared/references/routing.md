@@ -1,69 +1,116 @@
 # Routing, Readiness, and Skill Handoffs
 
-Use this contract when Overflow receives a natural-language request instead of an explicit slash command, or when a command depends on durable learning state.
+Use this contract when Overflow is invoked as `/overflow`, receives a natural-language request, or needs to choose a learning sub-skill.
+
+## Router responsibility
+
+Overflow is a route-first orchestrator. Its first job is to recognize the user’s request, announce the selected route, and continue the task. It is not a generic prompt that exposes internal instructions or stops at the first missing state file.
+
+Run `scripts/route_request.py <repository> --request "<original request>" --json` before acting. The helper is read-only and returns the primary intent, selected route, readiness state, whether initialization is required, an announcement, and a continuation payload. Use the helper as a deterministic guardrail, not as a replacement for judgment.
+
+A good route announcement has three parts:
+
+> **Route:** what Overflow will run.
+>
+> **Reason:** why that route fits the request and current repository state.
+>
+> **Continuation:** what Overflow will do after setup or a specialist handoff.
+
+For example:
+
+> I’m going to run `/setup-learning` first because this repository has no Overflow learning state. I’ll inspect the repository, ask the setup questions, and wait for confirmation before writing `.learning/`. After setup, I’ll continue with `/teach` for your original request.
+
+Do not say that the skill instructions require a question. Do not expose the readiness detector, routing table, or internal decision process unless the learner asks for diagnostics.
+
+## First-run and `/overflow` behavior
+
+When `/overflow` is invoked without a specific request, route to `/next` after checking readiness. If the repository is uninitialized, announce that Overflow will run `/setup-learning` first and then recommend the smallest next action. If `/overflow` includes a request, preserve that exact request as the continuation target.
+
+When a stateful request arrives and `.learning/` is missing, draft, or partial, automatically start `/setup-learning` after announcing it. The initializer must still inspect, interview, draft, and ask before durable writes. Once setup is confirmed and succeeds, continue the original route in the same conversation whenever possible. Do not ask the learner to retype the original request.
+
+Use the following continuation contract:
+
+```text
+original_request: the user’s exact request
+initializer: setup-learning
+resume_route: the selected Overflow route
+resume_after_setup: true only after setup completes successfully
+```
+
+If the learner explicitly requests a one-off stateless explanation, skip initialization and say that no durable learning state will be written. If the request needs progress, review history, active exercise state, durable memory, or a learning record, it cannot be meaningfully completed statelessly. Explain that and route to setup.
 
 ## Readiness states
 
-Run `scripts/detect_readiness.py <repository> --json` before claiming progress, resolving an omitted learning target, or writing a lesson, quiz session, exercise, hint, assessment, review, or learning record.
+Run `scripts/detect_readiness.py <repository> --json` as part of route planning. The detector never creates, deletes, or changes files.
 
-| State | Meaning | Router action |
+| State | Meaning | Route behavior |
 | --- | --- | --- |
-| `uninitialized` | `.learning/` does not exist. | Ask whether to initialize Overflow now, run `/setup-learning` only after confirmation, or continue with a one-off explanation without durable state. |
-| `draft` | Setup drafts exist but durable state has not been accepted. | Offer to resume setup, revise drafts, or discard drafts only after an explicit confirmation. Do not overwrite them. |
-| `partial` | Some durable files or directories exist, but the state is incomplete. | Show the missing items and offer to resume or repair setup. Do not silently recreate or reset state. |
-| `initialized` | Required planning files and learning directories exist. | Continue to the requested learning command. |
-| `invalid` | `.learning` is a file or otherwise unusable. | Explain the problem and ask whether to repair or choose another repository. Never delete it automatically. |
+| `uninitialized` | `.learning/` does not exist. | Announce `/setup-learning`, preserve the original request, and continue after confirmed setup. |
+| `draft` | Setup drafts exist but durable state has not been accepted. | Announce that setup will resume; preserve drafts and continue after confirmation. |
+| `partial` | Some durable files or directories exist, but state is incomplete. | Announce setup resumption, show missing items when relevant, and never recreate or reset silently. |
+| `initialized` | Required planning files and learning directories exist. | Continue to the selected Overflow route. |
+| `invalid` | `.learning` is a file or otherwise unusable. | Stop before writes and ask whether to repair or choose another repository. |
 
-When state is missing and the learner asks for an explicit Overflow command, pause at the readiness gate. Ask one selectable question:
+For `/help`, `/setup-learning`, `/explain`, and explicit diagnostic requests, do not block on durable learning readiness. `/explain` should run inline by default and only write an artifact when requested. `/help` and `/setup-learning` should proceed directly.
 
-```text
-Overflow is not initialized in this repository. What would you like to do?
-A. Initialize Overflow here (recommended; I will inspect the repo and ask before writing .learning/)
-B. Run this one-off without saving learning state
-C. Show me what initialization would inspect
-D. Cancel
-```
+## Intent routing
 
-For `/help`, `/setup-learning`, and a request explicitly asking to initialize, do not block on the gate. For `/progress`, `/next`, `/review`, `/learn`, `/hint`, and `/assess`, initialization is required unless the learner selects the one-off alternative and the command has a meaningful stateless fallback. Never fabricate progress or durable memory.
+Prefer explicit slash commands. Otherwise classify one primary intent and, when useful, one secondary intent. Route by workflow, not just by keyword.
 
-## Intent triage
+| Intent | Primary route | Preconditions | Typical continuation |
+| --- | --- | --- | --- |
+| Orient or invoke `/overflow` without a task | `/next` | Durable state, so initialize first when missing | `/teach`, `/quiz`, or `/exercise` selected by `/next` |
+| Learn from this repository or study a topic | `/teach` or `/next` | Durable state for saved lessons and curriculum | `/quiz`, `/exercise`, or `/assess` |
+| Retrieve knowledge | `/quiz` | Durable state for sessions and reports | `/exercise` or `/review` |
+| Practise implementation | `/exercise` | Durable state for active markers and attempts | `/hint`, `/assess`, then `/review` |
+| Explain code or an error | `/explain` | No durable state required by default | Optional `/teach` or `/exercise` |
+| Review or assess evidence | `/review` or `/assess` | Durable state unless a clearly bounded inline review is requested | `/teach`, `/hint`, or `/next` |
+| Manage learning memory or progress | `/learn`, `/progress`, or `/next` | Durable state | Continue with the recommended evidence gap |
+| Implement, debug, test, review, document, design, deploy, or modify an artifact | Specialist candidate | Inspect installed skill metadata first | Return to the original learning route and offer `/assess` |
+| No clear Overflow or specialist match | Direct answer | No durable state unless requested | Offer `/help` or a next action only when useful |
 
-Prefer an explicit slash command over inference. Otherwise classify the request into one primary intent and, when useful, one secondary intent:
+## Specialist discovery and invocation policy
 
-| Intent | Overflow action | Typical handoff candidates |
-| --- | --- | --- |
-| learn from this repository, understand a concept, study a day | Use `/setup-learning`, `/teach`, `/quiz`, or `/next`. | A repository-specific teaching or documentation skill, if installed. |
-| implement or practise a change | Use `/exercise`, then `/hint` and `/assess`. | A coding, refactoring, or test-writing skill for implementation assistance. |
-| inspect or explain existing code | Use `/explain` or `/teach` with a source anchor. | A code-review, debugging, architecture, or language skill. |
-| run checks, review a diff, or assess quality | Use `/assess` or `/review`. | A testing, code-review, security, or performance skill. |
-| create or modify files, documentation, UI, media, or infrastructure | Preserve the learning context, then offer a specialist skill. | The installed skill whose description most directly matches the artifact or operation. |
-| manage Overflow memory or state | Use `/learn`, `/progress`, `/next`, or `/help`. | Do not hand off state mutations unless the learner explicitly asks. |
+Run `scripts/discover_skills.py <repository> --include-global --json` before proposing a specialist. Match the skill’s frontmatter `name` and `description`, not the directory name alone. Filter out deprecated, experimental, malformed, and duplicate entries when the host exposes that metadata.
 
-Use `scripts/discover_skills.py <repository> --include-global --json` to inventory installed skill metadata. Match by the skill’s `name` and `description`, not by directory name alone. If no direct match exists, keep the work inside Overflow and explain the nearest supported command.
+Use Matt Pocock’s invocation distinction:
 
-## Handoff protocol
+| Skill type | Router behavior |
+| --- | --- |
+| User-invoked | Announce and offer the exact command. Do not invoke it silently from another skill. |
+| Model-invoked | The host may invoke it when the match is clear and proactive routing is enabled. Announce the route first. |
+| Unknown invocation policy | Treat it as user-invoked and ask for confirmation. |
 
-A handoff is an offer, not a silent invocation. Before triggering another skill, show the learner the proposed skill, the reason it matches, the files or operation it may affect, whether Overflow state will remain untouched, and the exact next action. Ask for confirmation as a selectable question. If the host cannot invoke another skill programmatically, render the equivalent explicit command or skill name as text.
+Overflow itself owns learning state, source citations, project glossary, curriculum, evidence plans, exercise markers, assessment records, progress, and durable learning memory. A specialist may work on the requested artifact, but it must not delete `.learning/`, rewrite learner records, commit, push, open a pull request, merge, switch branches, or run risky commands without separate confirmation.
 
-Use the smallest useful handoff. Do not invoke multiple specialists for one request unless the learner approves a sequence. Keep Overflow responsible for learning state, citations, exercise markers, evidence plans, and assessment records. The specialist may help perform the requested code or artifact work, but it must not delete `.learning/`, rewrite learner records, commit, push, open a pull request, merge, switch branches, or run risky commands without separate confirmation.
+## Handoff and phase boundaries
 
-After a handoff returns, summarize what was actually observed, re-run readiness detection if state may have changed, and ask whether to continue with `/assess`, `/teach`, `/review`, or another explicit command. Never claim that a handoff occurred, a test ran, or a file changed unless the host or tool reported it.
+Use a handoff for a real boundary: a new harness, a new directory, a colleague, or a side task. A specialist handoff is not the same as a portable conversation handoff.
+
+Before a specialist invocation, announce the skill, why it matches, expected files or commands, whether Overflow state remains untouched, and the next return point. Ask confirmation before file-changing or external actions. If the host cannot invoke a skill programmatically, render its exact command or name as text.
+
+After a specialist returns, verify what actually happened, summarize observed changes and checks, re-run readiness if `.learning/` may have changed, and continue the original request when safe. Do not claim that a handoff occurred, a command ran, or a file changed without host evidence.
+
+At a phase boundary, prefer continuing in the same conversation when the next phase needs the current reasoning as a primary source. Use a portable handoff only when work moves to another harness, directory, colleague, or side task. Use a fresh compacted session when the context is relevant but too large. Preserve the original request and the next route in any continuation artifact.
 
 ## Examples
 
 ```text
-User: teach me this repository
-Overflow: .learning is missing. Initialize here, run a one-off explanation, inspect initialization, or cancel?
-User: Initialize here
-Overflow: I found a source project with Python and pytest. I will draft the map, glossary, and curriculum, then ask before writing state.
+User: /overflow teach me how this parser works
+Overflow: I’m going to run `/setup-learning` first because this repository has no Overflow learning state. I’ll inspect the repository, ask the setup questions, and wait for confirmation before writing `.learning/`. After setup, I’ll continue with `/teach` for your original request.
 ```
 
 ```text
-User: review this pull request
-Overflow: I can assess it as learning evidence. I also found an installed code-review skill whose description matches review work. Should I use it for review feedback and keep Overflow for citations and progress?
+User: /overflow explain this error in src/parser.py
+Overflow: I’ll route this to `/explain` and answer inline without creating learning state. If you want the explanation saved or turned into a lesson, I’ll offer that next.
 ```
 
 ```text
-User: build a React dashboard for this lesson
-Overflow: This is an implementation request. I found an installed web-development skill. Should I hand off the dashboard implementation, then return here for `/assess` and progress tracking?
+User: /overflow build a React dashboard for this lesson
+Overflow: This is implementation work rather than a core learning command. I’ll inspect installed skill metadata and propose the closest web-development specialist. After it returns, I’ll bring the result back to Overflow for `/assess` and progress tracking.
+```
+
+```text
+User: /overflow review my answer
+Overflow: I found an active Overflow exercise, so I’ll route this to `/assess`. I’ll inspect the `CB-Q##` marker, use the approved checks only after confirmation, and keep correctness separate from quality and proof evidence.
 ```

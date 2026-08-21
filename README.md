@@ -90,7 +90,7 @@ The continuous quiz itself uses the same interaction model: learners can click a
 
 Use `/help` for a concise command map, `/help <command>` for one command, `/help examples` for complete course and source-project workflows, and `/help routing` for initialization and handoff behavior. The help skill explains what each command does, which arguments it accepts, what files it may create, and what command to use next.
 
-Before stateful learning commands, Overflow checks `.learning/`. If the repository is uninitialized or only partially initialized, it asks whether to initialize, continue with a one-off stateless response where meaningful, inspect setup, or cancel. It never fabricates progress or writes durable learner state without confirmation. For requests better suited to another installed skill, Overflow can inspect skill metadata and propose a handoff:
+Before stateful learning commands, Overflow checks `.learning/`. If the repository is uninitialized or only partially initialized, it announces that it is running `/setup-learning`, inspects the repository, asks before durable writes, and continues the original request after setup succeeds. It never fabricates progress or writes durable learner state without confirmation. For stateless explanations, it can answer inline without initialization. For requests better suited to another installed skill, Overflow can inspect skill metadata and propose a handoff:
 
 ```text
 /handoff
@@ -125,11 +125,12 @@ A day quiz defaults to ten questions and a topic quiz to five. Each question has
 The package includes read-only helpers for agents and debugging:
 
 ```bash
+python3 skills/overflow/scripts/route_request.py . --request "/overflow teach me this repository" --json
 python3 skills/overflow/scripts/detect_readiness.py . --json
 python3 skills/overflow/scripts/discover_skills.py . --include-global --json
 ```
 
-`detect_readiness.py` reports `uninitialized`, `draft`, `partial`, `initialized`, or `invalid`. `discover_skills.py` reads only standard `SKILL.md` metadata from visible project or global skill roots; it does not invoke skills or modify files.
+`route_request.py` plans an intent-aware route, emits the user-facing announcement, and preserves the original request for continuation after setup. `detect_readiness.py` reports `uninitialized`, `draft`, `partial`, `initialized`, or `invalid`. `discover_skills.py` reads only standard `SKILL.md` metadata from visible project or global skill roots; it does not invoke skills or modify files.
 
 ## Learning state
 

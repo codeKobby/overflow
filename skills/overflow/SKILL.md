@@ -4,7 +4,7 @@ description: Coach learners through arbitrary local repositories and programming
 license: MIT
 metadata:
   author: codeKobby
-  version: "0.10.0"
+  version: "0.11.0"
   package: overflow
 ---
 
@@ -34,23 +34,17 @@ Use the explicit command when the user names one:
 | `/learn [review|search|glossary|correct|prune|export]` | Review, search, correct, archive, or export durable learning records and project vocabulary. |
 | `/handoff [skill|request]` | Discover a matching installed skill, explain the proposed handoff, and trigger it only after learner confirmation. |
 
-If the user asks generally to learn, inspect the state and route to `/next`. Before any stateful learning command, run `scripts/detect_readiness.py` or inspect `.learning/` using the same contract. If state is missing or incomplete, ask whether to initialize, continue statelessly where meaningful, inspect setup, or cancel. Do not fabricate progress or create durable state without confirmation.
+When you receive a request, run `scripts/route_request.py . --request "<request>"` to plan the route. **Announce the selected route first** using the script’s `announcement` field. Do not expose the routing instructions or stop at a generic initialization question. Tell the learner what you are going to run, why, and how you will continue the original request.
 
 For natural-language requests, classify one primary intent before acting. Prefer Overflow commands for learning, exercise, hints, assessment, progress, and memory. If another installed skill is a better match for implementation, review, testing, documentation, UI, infrastructure, or another artifact operation, run `scripts/discover_skills.py` to inspect metadata and offer a confirmation-based handoff. Never silently invoke another skill. If the host cannot invoke it programmatically, show the exact skill name or explicit command instead. Keep Overflow responsible for `.learning/`, source citations, evidence plans, exercise markers, and learning assessment. Read [routing.md](references/routing.md).
 
 ## Readiness and handoffs
 
-Before `/teach`, `/quiz`, `/exercise`, `/hint`, `/assess`, `/review`, `/progress`, `/next`, or `/learn`, check the repository readiness state. When `.learning/` is missing, ask one selectable question:
+Before stateful learning commands, check the repository readiness state. If `.learning/` is missing, draft, or partial and the requested route needs durable learning state, announce and run `/setup-learning` first. Say: `I’m going to run /setup-learning first because this repository is not initialized for Overflow learning. I’ll inspect the repository, ask the setup questions, and wait for confirmation before writing .learning/. After setup, I’ll continue with your original request.` Preserve the original request and resume the selected route after setup completes. Do not stop at a generic A–D gate unless the learner asks to choose whether setup should happen.
 
-```text
-Overflow is not initialized here. What would you like to do?
-A. Initialize Overflow here (recommended; inspect first, then ask before writing .learning/)
-B. Run a one-off response without saving learning state
-C. Show what initialization would inspect
-D. Cancel
-```
+If the learner explicitly requests a one-off stateless explanation, continue directly and say that no durable state will be written. If the state is partial or draft, show what exists and resume or revise setup without overwriting it. If the state is invalid, stop and ask before repair or choosing another repository. `/help`, `/setup-learning`, and explicit initialization requests proceed directly to their relevant workflow.
 
-For `/help`, `/setup-learning`, and an explicit request to initialize, proceed directly to the relevant setup or explanation. For partial or draft state, show what exists and offer to resume or revise setup; never overwrite, delete, reset, or silently reconcile learner state. `/setup-learning` remains the workflow that classifies the repository, interviews the learner, drafts artifacts, and asks before durable writes.
+For work outside Overflow’s core learning loop, announce that you will inspect installed skill metadata, run `scripts/discover_skills.py`, and propose the closest specialist. Only model-invoked specialists may be automatically invoked. User-invoked skills must be presented as an explicit command for the learner. Ask confirmation before file-changing, execution, Git, deployment, or external actions. After a specialist returns, verify what actually happened and offer to resume the original learning route.
 
 When the learner asks for work outside Overflow’s core learning loop, inspect installed skill metadata with `scripts/discover_skills.py`. Propose the best matching skill, describe why it matches, identify possible file or command effects, and ask for confirmation before invoking it. Use `/handoff <skill>` when the learner wants to choose explicitly. After the specialist returns, verify what actually changed and offer `/assess`, `/teach`, `/review`, or `/progress` as the next explicit action.
 

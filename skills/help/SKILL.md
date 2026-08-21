@@ -4,7 +4,7 @@ description: Explain the Overflow learning-agent commands, accepted arguments, e
 license: MIT
 metadata:
   package: overflow
-  version: "0.10.0"
+  version: "0.11.0"
 ---
 
 # Overflow Help
@@ -21,7 +21,7 @@ For `/help` with no argument, show a concise command map grouped into **start**,
 
 For `/help <command>`, explain only that command first, then offer related commands as selectable choices or numbered options. Accept aliases such as `setup`, `lesson`, `practice`, `grade`, `memory`, `commands`, `examples`, `state`, `install`, `troubleshooting`, `handoff`, and `routing`.
 
-When the learner asks for a learning command but `.learning/` is missing or incomplete, explain the readiness gate and offer `/setup-learning`, a one-off stateless response when meaningful, an inspection of what setup would do, or cancellation. Do not imply that the repository is initialized until the readiness check confirms it.
+When the learner asks for a learning command but `.learning/` is missing or incomplete, explain the route-first behavior: Overflow will announce that it is running `/setup-learning`, inspect the repository, ask before durable writes, and continue the original request after setup succeeds. Offer a one-off stateless response only when the requested command has a meaningful stateless mode, such as `/explain`. Do not imply that the repository is initialized until the readiness check confirms it.
 
 Use selectable questions when the host supports them. Otherwise use numbered or lettered choices and accept the option label or natural-language equivalent. Do not require a proprietary question UI.
 

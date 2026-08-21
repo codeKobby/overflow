@@ -22,7 +22,7 @@ Then choose a target with `/teach`, `/quiz`, or `/exercise`. A typical implement
 
 Use `/help <command>` for one command, `/help examples` for common workflows, `/help state` for the `.learning/` files, and `/help routing` for initialization gates and cross-skill handoffs.
 
-If a learning command is requested before initialization, Overflow checks `.learning/` first and asks whether to initialize, continue statelessly where meaningful, inspect setup, or cancel. It does not fabricate progress or write durable state without confirmation.
+If a learning command is requested before initialization, Overflow announces that it is running `/setup-learning` first, inspects the repository, asks the setup questions, and continues your original request after setup is confirmed. It does not fabricate progress or write durable state without confirmation.
 
 ## Command map
 
@@ -64,7 +64,7 @@ python3 <overflow-skill>/scripts/detect_readiness.py . --json
 python3 <overflow-skill>/scripts/discover_skills.py . --include-global --json
 ```
 
-The readiness states are `uninitialized`, `draft`, `partial`, `initialized`, and `invalid`. Missing or incomplete state produces a selectable prompt rather than a silent setup or fabricated progress. Read `routing.md` for the full handoff and initialization contract.
+The readiness states are `uninitialized`, `draft`, `partial`, `initialized`, and `invalid`. Overflow is route-first: it recognizes your request, announces the selected route, and continues the task. If setup is missing, it runs `/setup-learning` automatically after announcing it. Read `routing.md` for the full handoff and initialization contract.
 
 ## `/setup-learning`
 
